@@ -1,0 +1,5 @@
+{
+    "require": {
+        "tc/twig-default-bundle": "^1.0"
+    }
+}

@@ -1,0 +1,8 @@
+sync:
+  defaults:
+    mode: two-way-resolved
+    ignore:
+      vcs: true
+    permissions:
+      defaultFileMode: 0664
+      defaultDirectoryMode: 0775
