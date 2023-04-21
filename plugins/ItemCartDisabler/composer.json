@@ -1,0 +1,18 @@
+{
+  "name": "finn/itemcartdisabler",
+  "description": "Item Cart Disabler",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ItemCartDisabler\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "ItemCartDisabler\\ItemCartDisabler",
+    "label": {
+      "de-DE": "Item Cart Disabler",
+      "en-GB": "Item Cart Disabler"
+    }
+  }
+}

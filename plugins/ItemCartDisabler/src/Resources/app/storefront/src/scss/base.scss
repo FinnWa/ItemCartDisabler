@@ -1,0 +1,16 @@
+// The value will be overwritten when the plugin is installed and activated
+$modal-button-color: #ffcc00 !default;
+$modal-text-color: #ffcc00 !default;
+$cart-button-color: #ffcc00 !default;
+$cart-text-color: #ffcc00 !default;
+
+
+.btn-modal {
+  background-color: $modal-button-color;
+  color: $modal-text-color;
+}
+
+.btn-cart {
+  background-color: $cart-button-color;
+  color: $cart-text-color;
+}

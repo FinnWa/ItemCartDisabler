@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="ItemCartDisabler\Subscriber\Storefront\Subscriber" class="ItemCartDisabler\Subscriber\Storefront\Subscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="ItemCartDisabler\Visibility\AddToCartButtonDisabler" class="ItemCartDisabler\Visibility\AddToCartButtonDisabler">
+            <tag name="twig.extension"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+        </service>
+
+        <service id="ItemCartDisabler\Visibility\AddToCartButtonModalDisabler" class="ItemCartDisabler\Visibility\AddToCartButtonModalDisabler">
+            <tag name="twig.extension"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+        </service>
+
+    </services>
+</container>
