@@ -20,5 +20,24 @@
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
+        <service id="ItemCartDisabler\Weather\ChangeWeatherState" class="ItemCartDisabler\Weather\ChangeWeatherState">
+            <tag name="twig.extension"/>
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="ItemCartDisabler\Fixer\FixProductCustomFields" class="ItemCartDisabler\Fixer\FixProductCustomFields">
+            <tag name="twig.extension"/>
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="ItemCartDisabler\Fixer\CommandFixProductCustomFields" class="ItemCartDisabler\Fixer\CommandFixProductCustomFields">
+            <tag name="console.command"/>
+            <argument type="service" id="ItemCartDisabler\Fixer\FixTemperatureCustomFields"/>
+        </service>
+
+        <service id="ItemCartDisabler\Fixer\FixTemperatureCustomFields" class="ItemCartDisabler\Fixer\FixTemperatureCustomFields">
+            <argument type="service" id="product.repository"/>
+        </service>
+
     </services>
 </container>

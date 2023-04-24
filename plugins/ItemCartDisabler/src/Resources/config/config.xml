@@ -84,5 +84,10 @@
             <defaultValue>#eee</defaultValue>
         </component>
 
+        <input-field type="float">
+            <name>weatherTemperature</name>
+            <label>weatherTemperature</label>
+        </input-field>
+
     </card>
 </config>
