@@ -25,12 +25,25 @@
 
         <service id="ItemCartDisabler\Weather\ChangeWeatherState" class="ItemCartDisabler\Weather\ChangeWeatherState">
             <argument type="service" id="product.repository"/>
+            <argument type="service" id="ItemCartDisabler\Weather\GetWeatherDataAPI"/>
         </service>
 
         <service id="ItemCartDisabler\Command\ChangeWeatherStateCommand"
                  class="ItemCartDisabler\Command\ChangeWeatherStateCommand">
             <tag name="console.command"/>
             <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherState"/>
+        </service>
+
+
+        <service id="ItemCartDisabler\Command\GetWeatherDataAPICommand"
+                 class="ItemCartDisabler\Command\GetWeatherDataAPICommand">
+            <tag name="console.command"/>
+            <argument type="service" id="ItemCartDisabler\Weather\GetWeatherDataAPI"/>
+        </service>
+
+        <service id="ItemCartDisabler\Weather\GetWeatherDataAPI"
+                 class="ItemCartDisabler\Weather\GetWeatherDataAPI">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
         <service id="ItemCartDisabler\Fixer\FixProductCustomFields"
@@ -60,5 +73,6 @@
             <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherState"/>
             <tag name="messenger.message_handler" />
         </service>
+
     </services>
 </container>

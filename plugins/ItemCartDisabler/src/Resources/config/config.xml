@@ -84,9 +84,10 @@
             <defaultValue>#eee</defaultValue>
         </component>
 
-        <input-field type="float">
-            <name>weatherTemperature</name>
-            <label>Change the Weather temperature</label>
+        <input-field type="text">
+            <name>weatherLocation</name>
+            <label>Set the State for the location of the weather temperature</label>
+            <defaultValue>Bremen</defaultValue>
         </input-field>
 
     </card>
