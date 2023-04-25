@@ -3,10 +3,9 @@
 namespace ItemCartDisabler\Fixer;
 
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Twig\Extension\AbstractExtension;
-use ItemCartDisabler\Fixer\CommandFixProductCustomFields;
 use Twig\TwigFunction;
 
 class FixProductCustomFields extends AbstractExtension
@@ -27,10 +26,8 @@ class FixProductCustomFields extends AbstractExtension
 
     public function fixData()
     {
-        $min = 0.0;
-        $max = 0.0;
         // TODO: refactor if statements and foreach
-        $result = [];
+        $results = [];
 
         $i = 0;
 
@@ -38,12 +35,12 @@ class FixProductCustomFields extends AbstractExtension
 
         foreach ($products as $product) {
 
-            $result[] = [
+            $results[] = [
                 'id' => $product->getId(),
                 'name' => $product->getName(),
                 'customFields' => $product->getCustomFields(),
             ];
-
+        /*
             $customFields = [
                 "custom_fits_weather_" => self::FITS_WEATHER,
                 "custom_fits_weather_max_temp" => $max,
@@ -72,8 +69,9 @@ class FixProductCustomFields extends AbstractExtension
                     ], Context::createDefaultContext());
             }
             $i++;
+        */
         }
-        return $result;
+        return $results;
     }
 
 }

@@ -86,7 +86,7 @@
 
         <input-field type="float">
             <name>weatherTemperature</name>
-            <label>weatherTemperature</label>
+            <label>Change the Weather temperature</label>
         </input-field>
 
     </card>

@@ -1,15 +1,15 @@
 <?php
 
-namespace ItemCartDisabler\Fixer;
+namespace ItemCartDisabler\Command;
 
+use ItemCartDisabler\Fixer\FixTemperatureCustomFields;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use ItemCartDisabler\Fixer\FixTemperatureCustomFields;
 
 
-class CommandFixProductCustomFields extends Command
+class FixTemperatureCustomFieldsCommand extends Command
 {
     private $fixTemperatureCustomFields;
 

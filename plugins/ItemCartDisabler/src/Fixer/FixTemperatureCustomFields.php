@@ -18,7 +18,7 @@ class FixTemperatureCustomFields
 
     public function fixData($max, $min)
     {
-        // TODO: refactor if statements and foreach
+        // TODO: refactor if statements and foreach, product upserts and include getData()
         $result = [];
 
         $i = 0;
@@ -50,6 +50,7 @@ class FixTemperatureCustomFields
             }
 
             //Wird nicht mehr gebraucht, war für spezielles Item
+            /*
             if ($result[$i]['customFields']['custom_fits_weather_max_temp'] === self::MAX_TEMPERATURE &&
                 $result[$i]['customFields']['custom_fits_weather_min_temp'] === self::MIN_TEMPERATURE
             ) {
@@ -60,7 +61,7 @@ class FixTemperatureCustomFields
                             'customFields' => $customFields,
                         ]
                     ], Context::createDefaultContext());
-            }
+            } */
             $i++;
         }
         return $result;
