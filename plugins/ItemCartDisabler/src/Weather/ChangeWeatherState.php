@@ -9,7 +9,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 class ChangeWeatherState
 {
 
-    const WEATHER_TEMPERATURE = 90;
+    const WEATHER_TEMPERATURE = 9;
 
     public function __construct(EntityRepository $productRepository)
     {

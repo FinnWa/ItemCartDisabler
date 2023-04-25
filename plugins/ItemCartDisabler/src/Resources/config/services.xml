@@ -51,5 +51,14 @@
             <argument type="service" id="ItemCartDisabler\Fixer\FixTemperatureCustomFields"/>
         </service>
 
+        <service id="ItemCartDisabler\ScheduledTask\ChangeWeatherStateTask">
+            <tag name="shopware.scheduled.task" />
+        </service>
+
+        <service id="ItemCartDisabler\ScheduledTask\ChangeWeatherStateTaskHandler">
+            <argument type="service" id="scheduled_task.repository" />
+            <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherState"/>
+            <tag name="messenger.message_handler" />
+        </service>
     </services>
 </container>
