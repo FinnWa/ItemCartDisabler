@@ -3,19 +3,18 @@
 namespace ItemCartDisabler\Weather;
 
 
-
-
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class GetWeatherDataAPI
 {
+    private SystemConfigService $systemConfig;
 
     public function __construct(SystemConfigService $systemConfig)
     {
         $this->systemConfig = $systemConfig;
     }
 
-    public function getWeatherData($state)
+    public function getWeatherData($state): string
     {
         $curl = curl_init();
 
@@ -41,14 +40,16 @@ class GetWeatherDataAPI
         if ($err) {
             return "cURL Error #:" . $err;
         }
-            return $response;
+        return $response;
     }
 
-    public function getLocation(){
+    public function getLocation(): string
+    {
         return $this->systemConfig->get('ItemCartDisabler.config.weatherLocation');
     }
 
-    public function getTemperature($dataJson){
+    public function getTemperature($dataJson): float
+    {
 
         $data = json_decode($dataJson, true);
 

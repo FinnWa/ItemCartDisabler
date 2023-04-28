@@ -8,7 +8,7 @@ use Twig\TwigFunction;
 
 class AddToCartButtonDisabler extends AbstractExtension
 {
-    private $systemConfig;
+    private SystemConfigService $systemConfig;
 
     public function __construct(
         SystemConfigService $systemConfig
@@ -17,7 +17,7 @@ class AddToCartButtonDisabler extends AbstractExtension
         $this->systemConfig = $systemConfig;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('should_show', [$this, 'shouldShow']),
@@ -27,17 +27,17 @@ class AddToCartButtonDisabler extends AbstractExtension
     public function shouldShow($productId): bool
     {
         $pluginActive = $this->systemConfig->get('ItemCartDisabler.config.status');
-        if(!$pluginActive){
+        if (!$pluginActive) {
             return false;
         }
 
         $hideAllCarts = $this->systemConfig->get('ItemCartDisabler.config.statusAll');
-        if($hideAllCarts){
+        if ($hideAllCarts) {
             return true;
         }
 
         $hideSpecificCarts = $this->systemConfig->get('ItemCartDisabler.config.statusSpecific');
-        if(!$hideSpecificCarts){
+        if (!$hideSpecificCarts) {
             return false;
         }
 

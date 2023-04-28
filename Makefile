@@ -1,5 +1,5 @@
 copy:
-	@docker cp "shopware:/var/www/html/vendor" "./shopware-vendor"
+	@docker cp "shopware:/var/www/html/vendor/." "./shopware-vendor"
 up:
 	@docker-compose down
 	@docker-compose up -d

@@ -23,15 +23,15 @@
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
-        <service id="ItemCartDisabler\Weather\ChangeWeatherState" class="ItemCartDisabler\Weather\ChangeWeatherState">
+        <service id="ItemCartDisabler\Weather\ChangeWeatherStatus" class="ItemCartDisabler\Weather\ChangeWeatherStatus">
             <argument type="service" id="product.repository"/>
             <argument type="service" id="ItemCartDisabler\Weather\GetWeatherDataAPI"/>
         </service>
 
-        <service id="ItemCartDisabler\Command\ChangeWeatherStateCommand"
-                 class="ItemCartDisabler\Command\ChangeWeatherStateCommand">
+        <service id="ItemCartDisabler\Command\ChangeWeatherStatusCommand"
+                 class="ItemCartDisabler\Command\ChangeWeatherStatusCommand">
             <tag name="console.command"/>
-            <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherState"/>
+            <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherStatus"/>
         </service>
 
 
@@ -64,13 +64,13 @@
             <argument type="service" id="ItemCartDisabler\Fixer\FixTemperatureCustomFields"/>
         </service>
 
-        <service id="ItemCartDisabler\ScheduledTask\ChangeWeatherStateTask">
+        <service id="ItemCartDisabler\ScheduledTask\ChangeWeatherStatusTask">
             <tag name="shopware.scheduled.task" />
         </service>
 
-        <service id="ItemCartDisabler\ScheduledTask\ChangeWeatherStateTaskHandler">
+        <service id="ItemCartDisabler\ScheduledTask\ChangeWeatherStatusTaskHandler">
             <argument type="service" id="scheduled_task.repository" />
-            <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherState"/>
+            <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherStatus"/>
             <tag name="messenger.message_handler" />
         </service>
 

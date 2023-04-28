@@ -3,9 +3,9 @@
 namespace ItemCartDisabler\Command;
 use ItemCartDisabler\Weather\GetWeatherDataAPI;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Webmozart\Assert\Assert;
 
 class GetWeatherDataAPICommand extends Command
 {
@@ -18,8 +18,6 @@ class GetWeatherDataAPICommand extends Command
         parent::__construct();
     }
 
-
-    // Command name
     protected static $defaultName = 'getWeatherDataAPI:get-temperature';
 
     protected function configure(): void
@@ -27,16 +25,17 @@ class GetWeatherDataAPICommand extends Command
         $this->setDescription('Gets temperature for the given state');
     }
 
-    // Actual code executed in the command
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $state = $this->getWeatherDataAPI->getLocation();
+        Assert::string($state, 'Location must be a string');
         $data = $this->getWeatherDataAPI->getWeatherData($state);
+        Assert::string($data, 'Weather data must be a string/json');
         $temperature = $this->getWeatherDataAPI->getTemperature($data);
+        Assert::float($temperature, 'Temperature must be a float');
 
-        $output->writeln("\n Temperate for $state is: $temperature");
+        $output->writeln(sprintf('Temperate for %s is: %s', $state, $temperature));
 
-        // Exit code 0 for success
         return 0;
     }
 

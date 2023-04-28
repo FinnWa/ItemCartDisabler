@@ -5,10 +5,13 @@ namespace ItemCartDisabler\Weather;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use ItemCartDisabler\Weather\GetWeatherDataAPI;
 
-class ChangeWeatherState
+
+class ChangeWeatherStatus
 {
+    private EntityRepository $productRepository;
+    private GetWeatherDataAPI $getWeatherDataAPI;
+
     public function __construct(EntityRepository $productRepository, GetWeatherDataAPI $getWeatherDataAPI)
     {
         $this->productRepository = $productRepository;
@@ -16,7 +19,7 @@ class ChangeWeatherState
     }
 
 
-    public function changeFittingWeather()
+    public function changeFittingWeather(): void
     {
         $results = $this->getWeatherDifferences();
         //TODO unnötige Upserts entfernen, wenn schon richtiger state vorhanden ist
@@ -42,10 +45,9 @@ class ChangeWeatherState
                     ], Context::createDefaultContext());
             }
         }
-        return $results;
     }
 
-    public function getWeatherDifferences()
+    public function getWeatherDifferences(): array
     {
         $differences = [];
         $temperature = $this->getWeatherDataAPI->getTemperature(
@@ -79,6 +81,4 @@ class ChangeWeatherState
 
         return $differences;
     }
-
-
 }

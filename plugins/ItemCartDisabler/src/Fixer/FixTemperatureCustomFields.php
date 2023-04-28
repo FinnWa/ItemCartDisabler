@@ -7,16 +7,13 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 
 class FixTemperatureCustomFields
 {
-
-    public const MIN_TEMPERATURE = 12.0;
-    public const MAX_TEMPERATURE = 0.0;
     const FITS_WEATHER = true;
     public function __construct(EntityRepository $productRepository)
     {
         $this->productRepository = $productRepository;
     }
 
-    public function fixData($max, $min)
+    public function fixData(int $max, int $min): array
     {
         // TODO: refactor if statements and foreach, product upserts and include getData()
         $result = [];
@@ -67,7 +64,7 @@ class FixTemperatureCustomFields
         return $result;
     }
 
-    public function setTemperature($max, $min)
+    public function setTemperature(int $max, int $min): array
     {
         // TODO: refactor if statements and foreach
         $result = [];

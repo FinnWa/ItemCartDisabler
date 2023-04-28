@@ -2,27 +2,27 @@
 
 namespace ItemCartDisabler\ScheduledTask;
 
-use ItemCartDisabler\Weather\ChangeWeatherState;
+use ItemCartDisabler\Weather\ChangeWeatherStatus;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskHandler;
 
-class ChangeWeatherStateTaskHandler extends ScheduledTaskHandler
+class ChangeWeatherStatusTaskHandler extends ScheduledTaskHandler
 {
 
-    public function __construct(EntityRepositoryInterface $scheduledTaskRepository, ChangeWeatherState $changeWeatherState)
+    public function __construct(EntityRepositoryInterface $scheduledTaskRepository, ChangeWeatherStatus $changeWeatherStatus)
     {
-        $this->changeWeatherState = $changeWeatherState;
+        $this->changeWeatherStatus = $changeWeatherStatus;
         parent::__construct($scheduledTaskRepository);
     }
 
     public static function getHandledMessages(): iterable
     {
-        return [ ChangeWeatherStateTask::class ];
+        return [ ChangeWeatherStatusTask::class ];
     }
 
     public function run(): void
     {
-        $this->changeWeatherState->changeFittingWeather();
+        $this->changeWeatherStatus->changeFittingWeather();
         echo "ScheduledTask run";
     }
 }
