@@ -1,5 +1,6 @@
 {
     "require": {
-        "tc/twig-default-bundle": "^1.0"
+        "tc/twig-default-bundle": "^1.0",
+      "ext-curl": "*"
     }
 }

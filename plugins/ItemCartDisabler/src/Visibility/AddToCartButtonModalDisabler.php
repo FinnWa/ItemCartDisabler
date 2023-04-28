@@ -8,7 +8,7 @@ use Twig\TwigFunction;
 
 class AddToCartButtonModalDisabler extends AbstractExtension
 {
-    private $systemConfig;
+    private SystemConfigService $systemConfig;
 
     public function __construct(
         SystemConfigService $systemConfig
@@ -17,7 +17,7 @@ class AddToCartButtonModalDisabler extends AbstractExtension
         $this->systemConfig = $systemConfig;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('should_show_modal', [$this, 'showModal'])
