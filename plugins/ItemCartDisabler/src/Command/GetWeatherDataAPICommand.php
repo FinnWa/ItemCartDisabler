@@ -30,7 +30,7 @@ class GetWeatherDataAPICommand extends Command
         $state = $this->getWeatherDataAPI->getLocation();
         Assert::string($state, 'Location must be a string');
         $data = $this->getWeatherDataAPI->getWeatherData($state);
-        Assert::string($data, 'Weather data must be a string/json');
+        Assert::isArray($data, 'Weather data must be a array');
         $temperature = $this->getWeatherDataAPI->getTemperature($data);
         Assert::float($temperature, 'Temperature must be a float');
 
