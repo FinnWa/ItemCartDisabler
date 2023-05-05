@@ -2,45 +2,34 @@
 
 namespace ItemCartDisabler\Weather;
 
-
 use Shopware\Core\System\SystemConfig\SystemConfigService;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GetWeatherDataAPI
 {
     private SystemConfigService $systemConfig;
+    private HttpClientInterface $httpClient;
 
-    public function __construct(SystemConfigService $systemConfig)
+    public function __construct(SystemConfigService $systemConfig, HttpClientInterface $httpClient)
     {
         $this->systemConfig = $systemConfig;
+        $this->httpClient = $httpClient;
     }
 
-    public function getWeatherData($state): string
+    public function getWeatherData($state): array
     {
-        $curl = curl_init();
+        $request = $this->httpClient->request(
+            'GET',
+            "https://weatherapi-com.p.rapidapi.com/current.json?q=$state",
+            ['headers' =>
+                [   'X-RapidAPI-Host' => " weatherapi-com.p.rapidapi.com",
+                    'X-RapidAPI-Key' => "83a73761f4msha41a29985073a3ep1eee52jsned4847050889",
+                    'content-type' => 'application/octet-stream'
+                ]
+            ]
+        );
 
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "https://weatherapi-com.p.rapidapi.com/current.json?q=$state",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => [
-                "X-RapidAPI-Host: weatherapi-com.p.rapidapi.com",
-                "X-RapidAPI-Key: 83a73761f4msha41a29985073a3ep1eee52jsned4847050889",
-                "content-type: application/octet-stream"
-            ],
-        ]);
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-        if ($err) {
-            return "cURL Error #:" . $err;
-        }
-        return $response;
+        return $request->toArray();
     }
 
     public function getLocation(): string
@@ -48,12 +37,9 @@ class GetWeatherDataAPI
         return $this->systemConfig->get('ItemCartDisabler.config.weatherLocation');
     }
 
-    public function getTemperature($dataJson): float
+    public function getTemperature($content): float
     {
-
-        $data = json_decode($dataJson, true);
-
-        return $data['current']['temp_c'];
+        return $content['current']['temp_c'];
     }
 
 }
