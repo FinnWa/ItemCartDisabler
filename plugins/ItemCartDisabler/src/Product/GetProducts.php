@@ -6,7 +6,7 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 class GetProducts
-//TODO parent::__construct für ChangeWeatherStatus.php
+//TODO parent::__construct für ChangeWeatherStatus.php und extends
 {
     private EntityRepository $productRepository;
 

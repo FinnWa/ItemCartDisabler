@@ -37,8 +37,9 @@ class GetWeatherDataAPI
         return $this->systemConfig->get('ItemCartDisabler.config.weatherLocation');
     }
 
-    public function getTemperature($content): float
+    public function getTemperature(): float
     {
+        $content = $this->getWeatherData($this->getLocation());
         return $content['current']['temp_c'];
     }
 

@@ -53,25 +53,21 @@ class ChangeWeatherStatus
     public function getWeatherDifferences(): array
     {
         $differences = [];
-        $temperature = $this->getWeatherDataAPI->getTemperature(
-            $this->getWeatherDataAPI->getWeatherData(
-                $this->getWeatherDataAPI->getLocation()
-            )
-        );
+        $temperature = $this->getWeatherDataAPI->getTemperature();
 
-        $results = $this->products->getProducts();
+        $products = $this->products->getProducts();
 
-        foreach ($results as $result) {
-            $minTemp = $result['customFields']['custom_fits_weather_min_temp'];
-            $maxTemp = $result['customFields']['custom_fits_weather_max_temp'];
-            $result['isInWeatherCondition'] = false;
+        foreach ($products as $product) {
+            $minTemp = $product['customFields']['custom_fits_weather_min_temp'];
+            $maxTemp = $product['customFields']['custom_fits_weather_max_temp'];
+            $product['isInWeatherCondition'] = false;
 
             if (($minTemp >= $temperature - 10 && $minTemp <= $temperature + 10) &&
                 ($maxTemp >= $temperature - 10 && $maxTemp <= $temperature + 10)
             ) {
-                $result['isInWeatherCondition'] = true;
+                $product['isInWeatherCondition'] = true;
             }
-            $differences[] = $result;
+            $differences[] = $product;
         }
 
 
