@@ -26,6 +26,7 @@
         <service id="ItemCartDisabler\Weather\ChangeWeatherStatus" class="ItemCartDisabler\Weather\ChangeWeatherStatus">
             <argument type="service" id="product.repository"/>
             <argument type="service" id="ItemCartDisabler\Weather\GetWeatherDataAPI"/>
+            <argument type="service" id="ItemCartDisabler\Product\GetProducts"/>
         </service>
 
         <service id="ItemCartDisabler\Command\ChangeWeatherStatusCommand"
@@ -47,16 +48,10 @@
             <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface"/>
         </service>
 
-        <service id="ItemCartDisabler\Fixer\FixProductCustomFields"
-                 class="ItemCartDisabler\Fixer\FixProductCustomFields">
-            <tag name="twig.extension"/>
-            <argument type="service" id="product.repository"/>
-        </service>
-
-
         <service id="ItemCartDisabler\Fixer\FixTemperatureCustomFields"
                  class="ItemCartDisabler\Fixer\FixTemperatureCustomFields">
             <argument type="service" id="product.repository"/>
+            <argument type="service" id="ItemCartDisabler\Product\GetProducts"/>
         </service>
 
         <service id="ItemCartDisabler\Command\FixTemperatureCustomFieldsCommand"
@@ -73,6 +68,10 @@
             <argument type="service" id="scheduled_task.repository" />
             <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherStatus"/>
             <tag name="messenger.message_handler" />
+        </service>
+
+        <service id="ItemCartDisabler\Product\GetProducts" class="ItemCartDisabler\Product\GetProducts">
+            <argument type="service" id="product.repository"/>
         </service>
 
     </services>

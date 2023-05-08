@@ -32,9 +32,9 @@ class FixTemperatureCustomFieldsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $max = $input->getArgument('max');
-        Assert::integer($max, 'argument max must be of type int');
+        //Assert::integer($max, 'argument max must be of type int');
         $min = $input->getArgument('min');
-        Assert::integer($min, 'argument min must be of type int');
+        //Assert::integer($min, 'argument min must be of type int');
 
         $this->fixTemperatureCustomFields->setTemperature($max, $min);
 

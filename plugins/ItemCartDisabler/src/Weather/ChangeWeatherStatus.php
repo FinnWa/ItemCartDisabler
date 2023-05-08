@@ -2,6 +2,7 @@
 
 namespace ItemCartDisabler\Weather;
 
+use ItemCartDisabler\Product\GetProducts;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -11,11 +12,13 @@ class ChangeWeatherStatus
 {
     private EntityRepository $productRepository;
     private GetWeatherDataAPI $getWeatherDataAPI;
+    private GetProducts $products;
 
-    public function __construct(EntityRepository $productRepository, GetWeatherDataAPI $getWeatherDataAPI)
+    public function __construct(EntityRepository $productRepository, GetWeatherDataAPI $getWeatherDataAPI, GetProducts $products)
     {
         $this->productRepository = $productRepository;
         $this->getWeatherDataAPI = $getWeatherDataAPI;
+        $this->products = $products;
     }
 
 
@@ -26,16 +29,7 @@ class ChangeWeatherStatus
 
         foreach ($results as $result) {
 
-            if ($result['minDiff'] === false || $result['maxDiff'] === false) {
-
-                $this->productRepository->upsert(
-                    [
-                        [
-                            'id' => $result['id'],
-                            'customFields' => ['custom_fits_weather_' => false],
-                        ]
-                    ], Context::createDefaultContext());
-            } else {
+            if ($result['isInWeatherCondition'] === true) {
                 $this->productRepository->upsert(
                     [
                         [
@@ -43,7 +37,16 @@ class ChangeWeatherStatus
                             'customFields' => ['custom_fits_weather_' => true],
                         ]
                     ], Context::createDefaultContext());
+                continue;
             }
+
+            $this->productRepository->upsert(
+                [
+                    [
+                        'id' => $result['id'],
+                        'customFields' => ['custom_fits_weather_' => false],
+                    ]
+                ], Context::createDefaultContext());
         }
     }
 
@@ -52,32 +55,25 @@ class ChangeWeatherStatus
         $differences = [];
         $temperature = $this->getWeatherDataAPI->getTemperature(
             $this->getWeatherDataAPI->getWeatherData(
-                $this->getWeatherDataAPI->getLocation()));
+                $this->getWeatherDataAPI->getLocation()
+            )
+        );
 
-        $products = $this->productRepository->search(new Criteria(), Context::createDefaultContext());
-        foreach ($products as $product) {
-            $results[] = [
-                'id' => $product->getId(),
-                'name' => $product->getName(),
-                'customFields' => $product->getCustomFields(),
-            ];
-        }
+        $results = $this->products->getProducts();
 
         foreach ($results as $result) {
-            $minDiff = $result['customFields']['custom_fits_weather_min_temp'];
-            $maxDiff = $result['customFields']['custom_fits_weather_max_temp'];
-            $result['maxDiff'] = false;
-            $result['minDiff'] = false;
+            $minTemp = $result['customFields']['custom_fits_weather_min_temp'];
+            $maxTemp = $result['customFields']['custom_fits_weather_max_temp'];
+            $result['isInWeatherCondition'] = false;
 
-            if (abs($minDiff - +($temperature)) <= 10) {
-                $result['minDiff'] = true;
-            }
-
-            if (abs($maxDiff - +($temperature)) <= 10) {
-                $result['maxDiff'] = true;
+            if (($minTemp >= $temperature - 10 && $minTemp <= $temperature + 10) &&
+                ($maxTemp >= $temperature - 10 && $maxTemp <= $temperature + 10)
+            ) {
+                $result['isInWeatherCondition'] = true;
             }
             $differences[] = $result;
         }
+
 
         return $differences;
     }
