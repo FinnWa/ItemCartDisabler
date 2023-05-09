@@ -2,7 +2,7 @@
 
 namespace ItemCartDisabler\Weather;
 
-use ItemCartDisabler\Product\GetProducts;
+use ItemCartDisabler\Product\ProductsToArrayMapper;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -12,9 +12,9 @@ class ChangeWeatherStatus
 {
     private EntityRepository $productRepository;
     private GetWeatherDataAPI $getWeatherDataAPI;
-    private GetProducts $products;
+    private ProductsToArrayMapper $products;
 
-    public function __construct(EntityRepository $productRepository, GetWeatherDataAPI $getWeatherDataAPI, GetProducts $products)
+    public function __construct(EntityRepository $productRepository, GetWeatherDataAPI $getWeatherDataAPI, ProductsToArrayMapper $products)
     {
         $this->productRepository = $productRepository;
         $this->getWeatherDataAPI = $getWeatherDataAPI;
@@ -55,7 +55,7 @@ class ChangeWeatherStatus
         $differences = [];
         $temperature = $this->getWeatherDataAPI->getTemperature();
 
-        $products = $this->products->getProducts();
+        $products = $this->products->map($this->productRepository->search(new Criteria(), Context::createDefaultContext()));
 
         foreach ($products as $product) {
             $minTemp = $product['customFields']['custom_fits_weather_min_temp'];

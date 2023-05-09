@@ -26,13 +26,14 @@
         <service id="ItemCartDisabler\Weather\ChangeWeatherStatus" class="ItemCartDisabler\Weather\ChangeWeatherStatus">
             <argument type="service" id="product.repository"/>
             <argument type="service" id="ItemCartDisabler\Weather\GetWeatherDataAPI"/>
-            <argument type="service" id="ItemCartDisabler\Product\GetProducts"/>
+            <argument type="service" id="ItemCartDisabler\Product\ProductsToArrayMapper"/>
         </service>
 
         <service id="ItemCartDisabler\Command\ChangeWeatherStatusCommand"
                  class="ItemCartDisabler\Command\ChangeWeatherStatusCommand">
             <tag name="console.command"/>
             <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherStatus"/>
+            <argument type="service" id="ItemCartDisabler\Weather\FitsWeatherCustomFieldUpdater"/>
         </service>
 
 
@@ -51,13 +52,13 @@
         <service id="ItemCartDisabler\Fixer\FixTemperatureCustomFields"
                  class="ItemCartDisabler\Fixer\FixTemperatureCustomFields">
             <argument type="service" id="product.repository"/>
-            <argument type="service" id="ItemCartDisabler\Product\GetProducts"/>
+            <argument type="service" id="ItemCartDisabler\Product\ProductsToArrayMapper"/>
         </service>
 
         <service id="ItemCartDisabler\Command\FixTemperatureCustomFieldsCommand"
                  class="ItemCartDisabler\Command\FixTemperatureCustomFieldsCommand">
             <tag name="console.command"/>
-            <argument type="service" id="ItemCartDisabler\Fixer\FixTemperatureCustomFields"/>
+            <argument type="service" id="ItemCartDisabler\Weather\TemperatureCustomFieldUpdater"/>
         </service>
 
         <service id="ItemCartDisabler\ScheduledTask\ChangeWeatherStatusTask">
@@ -70,8 +71,31 @@
             <tag name="messenger.message_handler" />
         </service>
 
-        <service id="ItemCartDisabler\Product\GetProducts" class="ItemCartDisabler\Product\GetProducts">
+        <service id="ItemCartDisabler\Product\ProductsToArrayMapper" class="ItemCartDisabler\Product\ProductsToArrayMapper">
+        </service>
+
+        <service id="ItemCartDisabler\Weather\FitsWeatherCustomFieldUpdater" class="ItemCartDisabler\Weather\FitsWeatherCustomFieldUpdater">
+            <argument type="service" id="ItemCartDisabler\Weather\GetWeatherDataAPI"/>
             <argument type="service" id="product.repository"/>
+            <argument type="service" id="ItemCartDisabler\Weather\TemperatureRangeChecker"/>
+            <argument type="service" id="ItemCartDisabler\Weather\FitsWeatherDatabaseWriter"/>
+        </service>
+
+        <service id="ItemCartDisabler\Weather\FitsWeatherDatabaseWriter" class="ItemCartDisabler\Weather\FitsWeatherDatabaseWriter">
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="ItemCartDisabler\Weather\TemperatureRangeChecker" class="ItemCartDisabler\Weather\TemperatureRangeChecker">
+        </service>
+
+        <service id="ItemCartDisabler\Weather\TemperatureDatabaseWriter" class="ItemCartDisabler\Weather\TemperatureDatabaseWriter">
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="ItemCartDisabler\Weather\TemperatureCustomFieldUpdater"
+                 class="ItemCartDisabler\Weather\TemperatureCustomFieldUpdater">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="ItemCartDisabler\Weather\TemperatureDatabaseWriter"/>
         </service>
 
     </services>

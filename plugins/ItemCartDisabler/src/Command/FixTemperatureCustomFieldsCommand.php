@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ItemCartDisabler\Command;
 
-use ItemCartDisabler\Fixer\FixTemperatureCustomFields;
+use ItemCartDisabler\Weather\TemperatureCustomFieldUpdater;
+use ItemCartDisabler\Weather\TemperatureDatabaseWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,12 +15,15 @@ use Webmozart\Assert\Assert;
 
 class FixTemperatureCustomFieldsCommand extends Command
 {
-    private FixTemperatureCustomFields $fixTemperatureCustomFields;
 
-    public function __construct( FixTemperatureCustomFields $fixTemperatureCustomFields)
+
+    private TemperatureCustomFieldUpdater $temperatureCustomFieldUpdater;
+
+    public function __construct(TemperatureCustomFieldUpdater $temperatureCustomFieldUpdater)
     {
-        $this->fixTemperatureCustomFields = $fixTemperatureCustomFields;
         parent::__construct();
+
+        $this->temperatureCustomFieldUpdater = $temperatureCustomFieldUpdater;
     }
 
     protected static $defaultName = 'fixProductCustomFields:fix-data';
@@ -36,7 +42,7 @@ class FixTemperatureCustomFieldsCommand extends Command
         $min = $input->getArgument('min');
         //Assert::integer($min, 'argument min must be of type int');
 
-        $this->fixTemperatureCustomFields->setTemperature($max, $min);
+        $this->temperatureCustomFieldUpdater->update($max, $min);
 
         $output->writeln(sprintf('Max temperature has been set to: %s%sMin temperature has been set to %s',
             $max,

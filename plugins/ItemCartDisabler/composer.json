@@ -14,5 +14,8 @@
       "de-DE": "Item Cart Disabler",
       "en-GB": "Item Cart Disabler"
     }
+  },
+  "require": {
+    "php": "7.4.*"
   }
 }

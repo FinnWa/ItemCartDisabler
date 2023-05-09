@@ -1,18 +1,18 @@
 <?php
 
 namespace ItemCartDisabler\Fixer;
-use ItemCartDisabler\Product\GetProducts;
+use ItemCartDisabler\Product\ProductsToArrayMapper;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 
 class FixTemperatureCustomFields
 {
     const FITS_WEATHER = true;
-    private GetProducts $products;
+    private ProductsToArrayMapper $products;
     private EntityRepository $productRepository;
 
-    public function __construct(EntityRepository $productRepository, GetProducts $products)
+    public function __construct(EntityRepository $productRepository, ProductsToArrayMapper $products)
     {
         $this->productRepository = $productRepository;
         $this->products = $products;
@@ -20,7 +20,7 @@ class FixTemperatureCustomFields
 
     public function setTemperature(int $max, int $min): void
     {
-        $products = $this->products->getProducts();
+        $products = $this->products->map($this->productRepository->search(new Criteria(), Context::createDefaultContext()));
 
         foreach ($products as $product) {
 
@@ -38,7 +38,5 @@ class FixTemperatureCustomFields
                         ]
                     ], Context::createDefaultContext());
         }
-        //TODO Warum wird nur nach dem zweiten, nach dem ausführen des commands, der richtige Dump angezeigt
-        dump($products);
     }
 }
