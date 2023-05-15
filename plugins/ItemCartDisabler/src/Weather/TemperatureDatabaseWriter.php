@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ItemCartDisabler\Weather;
 
 use Shopware\Core\Content\Product\ProductEntity;
@@ -14,7 +16,7 @@ class TemperatureDatabaseWriter
         $this->entityRepository = $entityRepository;
     }
 
-    public function write(ProductEntity $product, $maxTemperature, $minTemperature)
+    public function write(ProductEntity $product, int $maxTemperature, int $minTemperature): void
     {
         $this->entityRepository->upsert(
             [

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ItemCartDisabler\Command;
 
 use ItemCartDisabler\Weather\TemperatureCustomFieldUpdater;
-use ItemCartDisabler\Weather\TemperatureDatabaseWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,23 +30,27 @@ class FixTemperatureCustomFieldsCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('Sets for ALL products the temperature in the customFields')
-            ->addArgument('max', InputArgument::REQUIRED, 'Max Temperature')
-            ->addArgument('min', InputArgument::REQUIRED, 'Min Temperature');
+            ->addArgument('maxTemperature', InputArgument::REQUIRED, 'Max Temperature')
+            ->addArgument('minTemperature', InputArgument::REQUIRED, 'Min Temperature');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $max = $input->getArgument('max');
-        //Assert::integer($max, 'argument max must be of type int');
-        $min = $input->getArgument('min');
-        //Assert::integer($min, 'argument min must be of type int');
+        //Todo Warum geht int nicht
+        $maxTemperatureInput = $input->getArgument('maxTemperature');
+        Assert::numeric($maxTemperatureInput, 'max must be numeric');
+        $maxTemperature = (int)$maxTemperatureInput;
 
-        $this->temperatureCustomFieldUpdater->update($max, $min);
+        $minTemperatureInput = $input->getArgument('minTemperature');
+        Assert::numeric($minTemperatureInput, 'max must be numeric');
+        $minTemperature = (int)$minTemperatureInput;
+
+        $this->temperatureCustomFieldUpdater->update($maxTemperature, $minTemperature);
 
         $output->writeln(sprintf('Max temperature has been set to: %s%sMin temperature has been set to %s',
-            $max,
+            $maxTemperature,
             PHP_EOL,
-            $min));
+            $minTemperature));
 
         return self::SUCCESS;
     }

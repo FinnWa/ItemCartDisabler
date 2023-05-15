@@ -19,7 +19,7 @@ class TemperatureCustomFieldUpdater
         $this->temperatureDatabaseWriter = $temperatureDatabaseWriter;
     }
 
-    public function update(string  $maxTemperature, string $minTemperature): void
+    public function update(int $maxTemperature, int $minTemperature): void
     {
         $products = $this->entityRepository->search(new Criteria(), Context::createDefaultContext());
 
@@ -30,7 +30,6 @@ class TemperatureCustomFieldUpdater
                 $minTemperature
             );
         }
-        dump($products);
     }
 
 }
