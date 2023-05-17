@@ -4,6 +4,11 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="item_cart_disabler.api_key">%env(X_RAPIDAPI_KEY)%</parameter>
+        <parameter key="item_cart_disabler.api_host">weatherapi-com.p.rapidapi.com</parameter>
+    </parameters>
+
     <services>
 
         <service id="ItemCartDisabler\Subscriber\Storefront\Subscriber"
@@ -23,16 +28,9 @@
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
-        <service id="ItemCartDisabler\Weather\ChangeWeatherStatus" class="ItemCartDisabler\Weather\ChangeWeatherStatus">
-            <argument type="service" id="product.repository"/>
-            <argument type="service" id="ItemCartDisabler\Weather\GetWeatherDataAPI"/>
-            <argument type="service" id="ItemCartDisabler\Product\ProductsToArrayMapper"/>
-        </service>
-
         <service id="ItemCartDisabler\Command\ChangeWeatherStatusCommand"
                  class="ItemCartDisabler\Command\ChangeWeatherStatusCommand">
             <tag name="console.command"/>
-            <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherStatus"/>
             <argument type="service" id="ItemCartDisabler\Weather\FitsWeatherCustomFieldUpdater"/>
         </service>
 
@@ -41,18 +39,13 @@
                  class="ItemCartDisabler\Command\GetWeatherDataAPICommand">
             <tag name="console.command"/>
             <argument type="service" id="ItemCartDisabler\Weather\GetWeatherDataAPI"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
         </service>
 
         <service id="ItemCartDisabler\Weather\GetWeatherDataAPI"
                  class="ItemCartDisabler\Weather\GetWeatherDataAPI">
-            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
             <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface"/>
-        </service>
-
-        <service id="ItemCartDisabler\Fixer\FixTemperatureCustomFields"
-                 class="ItemCartDisabler\Fixer\FixTemperatureCustomFields">
-            <argument type="service" id="product.repository"/>
-            <argument type="service" id="ItemCartDisabler\Product\ProductsToArrayMapper"/>
+            <argument type="service" id="ItemCartDisabler\ItemCartDisablerConfig"/>
         </service>
 
         <service id="ItemCartDisabler\Command\FixTemperatureCustomFieldsCommand"
@@ -66,12 +59,10 @@
         </service>
 
         <service id="ItemCartDisabler\ScheduledTask\ChangeWeatherStatusTaskHandler">
-            <argument type="service" id="scheduled_task.repository" />
-            <argument type="service" id="ItemCartDisabler\Weather\ChangeWeatherStatus"/>
-            <tag name="messenger.message_handler" />
-        </service>
+            <argument type="service" id="product.repository" />
+            <argument type="service" id="ItemCartDisabler\Weather\TemperatureCustomFieldUpdater" />
 
-        <service id="ItemCartDisabler\Product\ProductsToArrayMapper" class="ItemCartDisabler\Product\ProductsToArrayMapper">
+            <tag name="messenger.message_handler" />
         </service>
 
         <service id="ItemCartDisabler\Weather\FitsWeatherCustomFieldUpdater" class="ItemCartDisabler\Weather\FitsWeatherCustomFieldUpdater">
@@ -96,6 +87,16 @@
                  class="ItemCartDisabler\Weather\TemperatureCustomFieldUpdater">
             <argument type="service" id="product.repository"/>
             <argument type="service" id="ItemCartDisabler\Weather\TemperatureDatabaseWriter"/>
+        </service>
+
+        <service id="ItemCartDisabler\ItemCartDisablerConfig">
+            <factory service="ItemCartDisabler\ItemCartDisablerConfigFactory" method="create"/>
+        </service>
+
+        <service id="ItemCartDisabler\ItemCartDisablerConfigFactory">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="string" >%item_cart_disabler.api_host%</argument>
+            <argument type="string" >%item_cart_disabler.api_key%</argument>
         </service>
 
     </services>
