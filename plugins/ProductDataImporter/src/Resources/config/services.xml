@@ -11,6 +11,7 @@
         </service>
 
         <service id="ProductDataImporter\Product\InputParser" >
+            <argument type="service" id="product.repository"/>
             <argument type="service" id="ProductDataImporter\Product\ProductImporter"/>
         </service>
 

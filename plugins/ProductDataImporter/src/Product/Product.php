@@ -23,4 +23,29 @@ final class Product
             $this->productBruttoPrice = (float)$productData[3] * self::BRUTTO_PERCENT;
     }
 
+    public function getProductNumber(): ?int
+    {
+        return $this->productNumber;
+    }
+
+    public function getProductName(): ?string
+    {
+        return $this->productName;
+    }
+
+    public function getProductDescription(): ?string
+    {
+        return $this->productDescription;
+    }
+
+    public function getProductNettoPrice(): ?float
+    {
+        return $this->productNettoPrice;
+    }
+
+    public function getProductBruttoPrice(): ?float
+    {
+        return $this->productBruttoPrice;
+    }
+
 }
