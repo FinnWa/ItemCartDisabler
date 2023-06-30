@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="ProductDataImporter\Product\ProductImporter" >
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductCollection"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\InputParser" >
+            <argument type="service" id="ProductDataImporter\Product\ProductImporter"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\Product" >
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductCollection" >
+        </service>
+
+        <service id="ProductDataImporter\Product\Command\ImportProducts">
+            <tag name="console.command"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductImporter"/>
+        </service>
+    </services>
+</container>
