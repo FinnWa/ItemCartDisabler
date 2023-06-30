@@ -13,10 +13,15 @@ final class ProductCollection implements \IteratorAggregate
 
     public function add(Product $product): void
     {
-        $this->products = $product;
+        $this->products[] = $product;
     }
 
-    public function getIterator()
+    public function products(): array
+    {
+        return $this->products;
+    }
+
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->products);
     }
