@@ -4,25 +4,18 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product;
 
+use Ramsey\Collection\AbstractCollection;
+use Ramsey\Collection\CollectionInterface;
 use Traversable;
 
-final class ProductCollection implements \IteratorAggregate
+/**
+ * @extends AbstractCollection<Product>
+ * @implements CollectionInterface<Product>
+ */
+final class ProductCollection extends AbstractCollection
 {
-    /** @var array<Product> */
-    private array $products = [];
-
-    public function add(Product $product): void
+    public function getType(): string
     {
-        $this->products[] = $product;
-    }
-
-    public function products(): array
-    {
-        return $this->products;
-    }
-
-    public function getIterator(): \ArrayIterator
-    {
-        return new \ArrayIterator($this->products);
+        return Product::class;
     }
 }

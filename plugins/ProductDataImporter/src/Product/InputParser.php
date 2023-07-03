@@ -4,35 +4,37 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product;
 
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 
 final class InputParser
 {
 
-    private EntityRepository $entityRepository;
-    public function __construct(EntityRepository $entityRepository)
+    private ProductImporter $productImporter;
+
+    public function __construct(ProductImporter $productImporter)
     {
-        $this->entityRepository = $entityRepository;
+        $this->productImporter = $productImporter;
     }
 
     public function parse(): ProductCollection
     {
         $productCollection = new ProductCollection();
-        $productImporter = new ProductImporter($this->entityRepository, $this->parse());
 
-        $product = null;
-
-        if (($handle = fopen("ProductData.csv", 'rb')) !== false) {
+        if (($handle = fopen(__DIR__ . "/ProductData.csv", 'rb')) !== false) {
             while (($productData = fgetcsv($handle, 1000, ",")) !== false) {
-                $product = new Product();
 
-                $product->addData($productData);
+                $product = new Product(
+                    (string)$productData[0],
+                    $productData[1],
+                    $productData[2],
+                    (float)$productData[3],
+                    (float)$productData[3]
+                );
 
                 $productCollection->add($product);
             }
             fclose($handle);
 
-            $productImporter->update();
+            $this->productImporter->update($productCollection);
         }
 
 

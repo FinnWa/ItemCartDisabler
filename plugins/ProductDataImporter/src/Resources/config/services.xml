@@ -11,7 +11,6 @@
         </service>
 
         <service id="ProductDataImporter\Product\InputParser" >
-            <argument type="service" id="product.repository"/>
             <argument type="service" id="ProductDataImporter\Product\ProductImporter"/>
         </service>
 
@@ -23,7 +22,7 @@
 
         <service id="ProductDataImporter\Product\Command\ImportProducts">
             <tag name="console.command"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductImporter"/>
+            <argument type="service" id="ProductDataImporter\Product\InputParser"/>
         </service>
     </services>
 </container>

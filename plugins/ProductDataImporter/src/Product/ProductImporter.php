@@ -4,37 +4,49 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product;
 
-use Shopware\Core\Content\Product\ProductEntity;
+use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\Uuid\Uuid;
 
 final class ProductImporter
 {
     private EntityRepository $entityRepository;
     private ProductCollection $productCollection;
 
-    public function __construct(EntityRepository $entityRepository, ProductCollection $productCollection, ProductEntity)
+    public function __construct(EntityRepository $entityRepository, ProductCollection $productCollection)
     {
         $this->entityRepository = $entityRepository;
         $this->productCollection = $productCollection;
     }
 
-    public function update(): void
+    public function update(ProductCollection $productCollection): void
     {
-        echo "hello";
-        $productCollection = $this->productCollection->products();
-        $products = $this->entityRepository->search(new Criteria(), Context::createDefaultContext());
-
+        var_dump($productCollection);
         foreach ($productCollection as $product) {
-            var_dump($products);
-            $this->entityRepository->upsert([
+
+            $this->entityRepository->create([
                 [
-                    'productName' => $product->getProductName(),
-                    'productDescription' => $product->getProductDescription(),
+                    'id' => Uuid::randomhex(),
+                    'name' => $product->getProductName(),
+                    'taxId' => 'b6e827014e184c7d82ffdc25b4e446ad',
+                    'stock' => 1000,
+                    'price' => [
+                        [
+                            'currencyId' => 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
+                            'gross' => $product->getProductBruttoPrice(),
+                            'net' => $product->getProductNettoPrice(),
+                            'linked' => true,
+                        ]
+                    ],
                     'productNumber' => $product->getProductNumber(),
-                    'productNettoPrice' => $product->getProductNettoPrice(),
-                    'productBruttoPrice' => $product->getProductBruttoPrice(),
+                    'description' => $product->getProductDescription(),
+                    'visibility' => [
+                        [
+                            'salesChannelId' => '9e1c99c3c5c546ddaf9c6825a5b257b6',
+                            'visibility' => ProductVisibilityDefinition::VISIBILITY_ALL,
+                        ]
+                    ],
                 ]
             ], Context::createDefaultContext());
         }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product\Command;
 
+use ProductDataImporter\Product\InputParser;
 use ProductDataImporter\Product\ProductImporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,10 +12,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class ImportProducts extends Command
 {
     private ProductImporter $productImporter;
+    private InputParser $inputParser;
 
-    public function __construct(ProductImporter $productImporter)
+    public function __construct(InputParser $inputParser)
     {
-        $this->productImporter = $productImporter;
+        $this->inputParser = $inputParser;
         parent::__construct();
     }
 
@@ -27,7 +29,7 @@ final class ImportProducts extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->productImporter->update();
+        $this->inputParser->parse();
 
         $output->writeln('products added');
 
