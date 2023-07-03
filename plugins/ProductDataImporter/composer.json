@@ -11,8 +11,8 @@
   "extra": {
     "shopware-plugin-class": "ProductDataImporter\\ProductDataImporter",
     "label": {
-      "de-DE": "Skeleton plugin",
-      "en-GB": "Skeleton plugin"
+      "de-DE": "Product Importer",
+      "en-GB": "Product Importer"
     }
   }
 }
