@@ -1,0 +1,18 @@
+{
+  "name": "finnwa/product-data-importer",
+  "description": "ProductDataImporter",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ProductDataImporter\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "ProductDataImporter\\ProductDataImporter",
+    "label": {
+      "de-DE": "Skeleton plugin",
+      "en-GB": "Skeleton plugin"
+    }
+  }
+}
