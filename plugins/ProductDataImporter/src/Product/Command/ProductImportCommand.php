@@ -6,37 +6,34 @@ namespace ProductDataImporter\Product\Command;
 
 use ProductDataImporter\Product\InputParser;
 use ProductDataImporter\Product\ProductImporter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-final class ImportProducts extends Command
-{
-    private ProductImporter $productImporter;
-    private InputParser $inputParser;
 
-    public function __construct(InputParser $inputParser)
+#[AsCommand('product:import', 'add new products')]
+final class ProductImportCommand extends Command
+{
+
+    public function __construct(private InputParser $inputParser, private ProductImporter $productImporter)
     {
-        $this->inputParser = $inputParser;
         parent::__construct();
     }
 
-    protected static $defaultName = 'productImporter:add';
-
     protected function configure(): void
     {
-        $this
-            ->setDescription('add new products')
-            ->addArgument('path', InputArgument::REQUIRED, 'path to file location');
-
+        $this->addArgument('path', InputArgument::REQUIRED, 'path to file location');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->inputParser->parse($input->getArgument('path'));
+        $products = $this->inputParser->parse($input->getArgument('path'));
+
+        $this->productImporter->update($products);
 
         $output->writeln('products added');
 
-        return 0;
+        return self::SUCCESS;
     }
 }

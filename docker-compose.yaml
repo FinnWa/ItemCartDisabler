@@ -13,6 +13,7 @@ services:
       - "mysql_data:/var/lib/mysql"
     environment:
       - "XDEBUG_ENABLED=1"
+      - "PHP_VERSION=8.2"
 
 volumes:
   mysql_data:

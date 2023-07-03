@@ -22,33 +22,32 @@ final class ProductImporter
 
     public function update(ProductCollection $productCollection): void
     {
-        var_dump($productCollection);
+        $updates = [];
         foreach ($productCollection as $product) {
-
-            $this->entityRepository->create([
-                [
-                    'id' => Uuid::randomhex(),
-                    'name' => $product->getProductName(),
-                    'taxId' => 'b6e827014e184c7d82ffdc25b4e446ad',
-                    'stock' => 1000,
-                    'price' => [
-                        [
-                            'currencyId' => 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
-                            'gross' => $product->getProductBruttoPrice(),
-                            'net' => $product->getProductNettoPrice(),
-                            'linked' => true,
-                        ]
-                    ],
-                    'productNumber' => $product->getProductNumber(),
-                    'description' => $product->getProductDescription(),
-                    'visibility' => [
-                        [
-                            'salesChannelId' => '9e1c99c3c5c546ddaf9c6825a5b257b6',
-                            'visibility' => ProductVisibilityDefinition::VISIBILITY_ALL,
-                        ]
-                    ],
+            $updates[] = [
+                'id' => Uuid::randomhex(),
+                'name' => $product->getProductName(),
+                'taxId' => 'b6e827014e184c7d82ffdc25b4e446ad',
+                'stock' => 1000,
+                'price' => [
+                    [
+                        'currencyId' => 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
+                        'gross' => $product->getProductBruttoPrice(),
+                        'net' => $product->getProductNettoPrice(),
+                        'linked' => true,
+                    ]
+                ],
+                'productNumber' => $product->getProductNumber(),
+                'description' => $product->getProductDescription(),
+                'visibility' => [
+                    [
+                        'salesChannelId' => '9e1c99c3c5c546ddaf9c6825a5b257b6',
+                        'visibility' => ProductVisibilityDefinition::VISIBILITY_ALL,
+                    ]
                 ]
-            ], Context::createDefaultContext());
+            ];
         }
+
+        $this->entityRepository->create($updates, Context::createDefaultContext());
     }
 }

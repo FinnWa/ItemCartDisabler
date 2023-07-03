@@ -20,7 +20,7 @@
         <service id="ProductDataImporter\Product\ProductCollection" >
         </service>
 
-        <service id="ProductDataImporter\Product\Command\ImportProducts">
+        <service id="ProductDataImporter\Product\Command\ProductImportCommand">
             <tag name="console.command"/>
             <argument type="service" id="ProductDataImporter\Product\InputParser"/>
         </service>

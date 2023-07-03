@@ -10,20 +10,15 @@ use Symfony\Component\Serializer\Serializer;
 
 final class InputParser
 {
-
-    private ProductImporter $productImporter;
-
-    public function __construct(ProductImporter $productImporter)
+    public function __construct(private Serializer $serializer)
     {
-        $this->productImporter = $productImporter;
     }
 
     public function parse(string $path): ProductCollection
     {
         $productCollection = new ProductCollection();
 
-        $serializer = new Serializer([], [new CsvEncoder()]);
-        $productsData = $serializer->decode(file_get_contents(__DIR__.$path, true), 'csv', ['no_headers']);
+        $productsData = $this->serializer->decode(file_get_contents($path), CsvEncoder::FORMAT, ['no_headers']);
 
         foreach ($productsData as $productData) {
             $product = new Product(
@@ -36,9 +31,6 @@ final class InputParser
 
             $productCollection->add($product);
         }
-
-        $this->productImporter->update($productCollection);
-
 
         return $productCollection;
     }
