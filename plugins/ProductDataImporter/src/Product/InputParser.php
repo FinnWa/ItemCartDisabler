@@ -18,12 +18,12 @@ final class InputParser
         $this->productImporter = $productImporter;
     }
 
-    public function parse(): ProductCollection
+    public function parse(string $path): ProductCollection
     {
         $productCollection = new ProductCollection();
 
         $serializer = new Serializer([], [new CsvEncoder()]);
-        $productsData = $serializer->decode(file_get_contents(__DIR__ . "/ProductData.csv"), 'csv', ['no_headers']);
+        $productsData = $serializer->decode(file_get_contents(__DIR__.$path, true), 'csv', ['no_headers']);
 
         foreach ($productsData as $productData) {
             $product = new Product(

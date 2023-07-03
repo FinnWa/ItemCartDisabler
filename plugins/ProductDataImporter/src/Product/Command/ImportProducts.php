@@ -7,6 +7,7 @@ namespace ProductDataImporter\Product\Command;
 use ProductDataImporter\Product\InputParser;
 use ProductDataImporter\Product\ProductImporter;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 final class ImportProducts extends Command
@@ -24,12 +25,15 @@ final class ImportProducts extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('add new products');
+        $this
+            ->setDescription('add new products')
+            ->addArgument('path', InputArgument::REQUIRED, 'path to file location');
+
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->inputParser->parse();
+        $this->inputParser->parse($input->getArgument('path'));
 
         $output->writeln('products added');
 
