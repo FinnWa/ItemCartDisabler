@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace ProductDataImporter\Product;
 
 
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Serializer;
+
 final class InputParser
 {
 
@@ -19,23 +22,22 @@ final class InputParser
     {
         $productCollection = new ProductCollection();
 
-        if (($handle = fopen(__DIR__ . "/ProductData.csv", 'rb')) !== false) {
-            while (($productData = fgetcsv($handle, 1000, ",")) !== false) {
+        $serializer = new Serializer([], [new CsvEncoder()]);
+        $productsData = $serializer->decode(file_get_contents(__DIR__ . "/ProductData.csv"), 'csv', ['no_headers']);
 
-                $product = new Product(
-                    (string)$productData[0],
-                    $productData[1],
-                    $productData[2],
-                    (float)$productData[3],
-                    (float)$productData[3]
-                );
+        foreach ($productsData as $productData) {
+            $product = new Product(
+                (string)$productData['NUMBER'],
+                $productData['NAME'],
+                $productData['DESCRIPTION'],
+                (float)$productData['PRICE_NET'],
+                (float)$productData['PRICE_NET']
+            );
 
-                $productCollection->add($product);
-            }
-            fclose($handle);
-
-            $this->productImporter->update($productCollection);
+            $productCollection->add($product);
         }
+
+        $this->productImporter->update($productCollection);
 
 
         return $productCollection;
