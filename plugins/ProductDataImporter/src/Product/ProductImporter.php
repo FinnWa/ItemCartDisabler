@@ -26,19 +26,19 @@ final class ProductImporter
         foreach ($productCollection as $product) {
             $updates[] = [
                 'id' => Uuid::randomhex(),
-                'name' => $product->getProductName(),
+                'name' => $product->productName,
                 'taxId' => 'b6e827014e184c7d82ffdc25b4e446ad',
                 'stock' => 1000,
                 'price' => [
                     [
                         'currencyId' => 'b7d2554b0ce847cd82f3ac9bd1c0dfca',
-                        'gross' => $product->getProductBruttoPrice(),
-                        'net' => $product->getProductNettoPrice(),
+                        'gross' => $product->productBruttoPrice,
+                        'net' => $product->productNettoPrice,
                         'linked' => true,
                     ]
                 ],
-                'productNumber' => $product->getProductNumber(),
-                'description' => $product->getProductDescription(),
+                'productNumber' => $product->productNumber,
+                'description' => $product->productDescription,
                 'visibility' => [
                     [
                         'salesChannelId' => '9e1c99c3c5c546ddaf9c6825a5b257b6',
@@ -48,6 +48,7 @@ final class ProductImporter
             ];
         }
 
-        $this->entityRepository->create($updates, Context::createDefaultContext());
+        //TODO aus dem Context die ids holen
+        //$this->entityRepository->create($updates, Context::createDefaultContext());
     }
 }

@@ -12,6 +12,7 @@
 
         <service id="ProductDataImporter\Product\InputParser" >
             <argument type="service" id="serializer"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductImageToMedia"/>
         </service>
 
         <service id="ProductDataImporter\Product\Product" >
@@ -25,5 +26,27 @@
             <argument type="service" id="ProductDataImporter\Product\InputParser"/>
             <argument type="service" id="ProductDataImporter\Product\ProductImporter"/>
         </service>
+
+
+        <service id="ProductDataImporter\Product\ProductImageDownloader">
+            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
+            <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductMedia">
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductMediaCollection">
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductMediaImporter">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductImageToMedia">
+            <argument type="service" id="ProductDataImporter\Product\ProductImageDownloader"/>
+        </service>
+
     </services>
 </container>

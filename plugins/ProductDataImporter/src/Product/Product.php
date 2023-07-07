@@ -4,49 +4,19 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product;
 
-final class Product
+final readonly class Product
 {
-
-
-    const BRUTTO_PERCENT = 1.19;
+    private const BRUTTO_PERCENT = 1.19;
+    public float $productBruttoPrice;
 
     public function __construct(
-        string $productNumber,
-        string $productName,
-        string $productDescription,
-        float $productNettoPrice,
-        float $productBruttoPrice
+        public string $productNumber,
+        public string $productName,
+        public string $productDescription,
+        public float $productNettoPrice,
+        float $productBruttoPrice,
+        public string $productImageUrl
     ) {
-        $this->productNumber = $productNumber;
-        $this->productName = $productName;
-        $this->productDescription = $productDescription;
-        $this->productNettoPrice = $productNettoPrice;
         $this->productBruttoPrice = round(($productBruttoPrice * self::BRUTTO_PERCENT), 2);
     }
-
-    public function getProductNumber(): ?string
-    {
-        return $this->productNumber;
-    }
-
-    public function getProductName(): ?string
-    {
-        return $this->productName;
-    }
-
-    public function getProductDescription(): ?string
-    {
-        return $this->productDescription;
-    }
-
-    public function getProductNettoPrice(): ?float
-    {
-        return $this->productNettoPrice;
-    }
-
-    public function getProductBruttoPrice(): ?float
-    {
-        return $this->productBruttoPrice;
-    }
-
 }
