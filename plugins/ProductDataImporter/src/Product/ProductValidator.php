@@ -17,17 +17,23 @@ final class ProductValidator
     {
         $brokenProductCollection = new BrokenProductCollection();
         foreach ($productCollection as $product) {
-            if (!$this->hasImage($product)) {
-                $product->productImageUrl = 'MISSING';
+            if (!$this->hasImage($product) || !$this->hasProductNumber($product) || !$this->hasProductName($product)) {
+                if (!$this->hasImage($product)) {
+                    $product->productImageUrl = 'MISSING';
+                }
+
+                if (!$this->hasProductNumber($product)) {
+                    $product->productNumber = 'MISSING';
+                }
+
+                if (!$this->hasProductName($product)) {
+                    $product->productName = 'MISSING';
+                }
                 $brokenProductCollection->add($product);
                 $productCollection->remove($product);
             }
 
-            if (!$this->hasProductNumber($product)){
-                $product->productNumber = 'MISSING';
-                $brokenProductCollection->add($product);
-                $productCollection->remove($product);
-            }
+
         }
         $this->writeBrokenProductsToCsv($brokenProductCollection);
     }
@@ -43,6 +49,14 @@ final class ProductValidator
     public function hasProductNumber(Product $product): bool
     {
         if ($product->productNumber === '') {
+            return false;
+        }
+        return true;
+    }
+
+    public function hasProductName(Product $product): bool
+    {
+        if ($product->productName === '') {
             return false;
         }
         return true;
