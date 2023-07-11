@@ -21,7 +21,8 @@ final class InputParser
     {
         $productCollection = new ProductCollection();
 
-        $productsData = $this->serializer->decode(file_get_contents($path), CsvEncoder::FORMAT, ['no_headers']);
+        $productsData = $this->serializer->decode(file_get_contents($path), CsvEncoder::FORMAT,
+            ['no_headers', CsvEncoder::DELIMITER_KEY => ';']);
 
         foreach ($productsData as $productData) {
             $product = new Product(

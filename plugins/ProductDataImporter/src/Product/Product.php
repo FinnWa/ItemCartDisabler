@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product;
 
-final readonly class Product
+
+//CHANGED DUE TO VALIDATION REMOVED READONLY
+final class Product
 {
     private const BRUTTO_PERCENT = 1.19;
     public float $productBruttoPrice;

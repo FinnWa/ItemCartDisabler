@@ -9,6 +9,7 @@
             <argument type="service" id="product.repository"/>
             <argument type="service" id="ProductDataImporter\Product\ProductCollection"/>
             <argument type="service" id="ProductDataImporter\Product\ProductImageToMedia"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductValidator"/>
         </service>
 
         <service id="ProductDataImporter\Product\InputParser" >
@@ -53,6 +54,10 @@
         </service>
 
         <service id="ProductDataImporter\Product\ProductImage">
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductValidator">
+            <argument type="service" id="serializer"/>
         </service>
 
     </services>

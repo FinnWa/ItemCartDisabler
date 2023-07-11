@@ -15,13 +15,17 @@ final class ProductImporter
     public function __construct(
         private EntityRepository $entityRepository,
         private ProductCollection $productCollection,
-        private ProductImageToMedia $imageToMedia
+        private ProductImageToMedia $imageToMedia,
+        private ProductValidator $productValidator
     ) {
     }
 
     public function import(ProductCollection $productCollection): void
     {
         $updates = [];
+
+        $this->productValidator->validate($productCollection);
+
         foreach ($productCollection as $product) {
             $updates[] = [
                 'id' => $product->id,
