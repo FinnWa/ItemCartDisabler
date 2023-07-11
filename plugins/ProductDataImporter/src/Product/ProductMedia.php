@@ -10,10 +10,9 @@ use Shopware\Core\Framework\Context;
 final class ProductMedia
 {
     public function __construct(
-        public string $filePath,
-        public string $fileName,
-        public string $fileExtension,
-        public Context $context
+        public string $id,
+        public string $productId,
+        public string $imageName
     ) {
     }
 

@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Serializer;
 
 final class InputParser
 {
-    public function __construct(private Serializer $serializer, private ProductImageToMedia $imageToMedia)
+    public function __construct(private Serializer $serializer)
     {
     }
 
@@ -30,11 +30,11 @@ final class InputParser
                 $productData['DESCRIPTION'],
                 (float)$productData['PRICE_NET'],
                 (float)$productData['PRICE_NET'],
-                (string)$productData['IMAGE']
+                (string)$productData['IMAGE'],
+                Uuid::randomHex()
             );
             $productCollection->add($product);
         }
-        $this->imageToMedia->convert($productCollection);
         return $productCollection;
     }
 

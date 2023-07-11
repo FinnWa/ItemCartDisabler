@@ -4,25 +4,28 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product;
 
-use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\Uuid\Uuid;
 
 final class ProductMediaImporter
 {
 
     public function __construct(
-        EntityRepository $mediaRepository,
-        MediaService $mediaService,
+        private EntityRepository $mediaRepository,
     ) {
-        $this->mediaRepository = $mediaRepository;
-        $this->mediaService = $mediaService;
     }
 
-    public function create($productId, $mediaId): void
+    public function import(ProductMediaCollection $mediaCollection): void
     {
+        var_dump($mediaCollection);
+        foreach ($mediaCollection as $media){
+            $id = Uuid::randomHex();
+            var_dump("Das ist die ID:" . $id);
+            var_dump($media);
 
-        $data = ['productId' => $productId, 'mediaId' => $mediaId];
-        $this->mediaRepository->create($data,  Context::createDefaultContext());
+        $data = ['id' => $id, 'productId' => $media->productId, 'mediaId' => $media->id];
+        $this->mediaRepository->create([$data], Context::createDefaultContext());
+        }
     }
 }

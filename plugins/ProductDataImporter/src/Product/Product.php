@@ -15,7 +15,8 @@ final readonly class Product
         public string $productDescription,
         public float $productNettoPrice,
         float $productBruttoPrice,
-        public string $productImageUrl
+        public string $productImageUrl,
+        public string $id,
     ) {
         $this->productBruttoPrice = round(($productBruttoPrice * self::BRUTTO_PERCENT), 2);
     }

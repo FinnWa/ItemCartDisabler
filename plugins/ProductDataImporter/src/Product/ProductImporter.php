@@ -11,21 +11,20 @@ use Shopware\Core\Framework\Uuid\Uuid;
 
 final class ProductImporter
 {
-    private EntityRepository $entityRepository;
-    private ProductCollection $productCollection;
 
-    public function __construct(EntityRepository $entityRepository, ProductCollection $productCollection)
-    {
-        $this->entityRepository = $entityRepository;
-        $this->productCollection = $productCollection;
+    public function __construct(
+        private EntityRepository $entityRepository,
+        private ProductCollection $productCollection,
+        private ProductImageToMedia $imageToMedia
+    ) {
     }
 
-    public function update(ProductCollection $productCollection): void
+    public function import(ProductCollection $productCollection): void
     {
         $updates = [];
         foreach ($productCollection as $product) {
             $updates[] = [
-                'id' => Uuid::randomhex(),
+                'id' => $product->id,
                 'name' => $product->productName,
                 'taxId' => 'b6e827014e184c7d82ffdc25b4e446ad',
                 'stock' => 1000,
@@ -49,6 +48,7 @@ final class ProductImporter
         }
 
         //TODO aus dem Context die ids holen
-        //$this->entityRepository->create($updates, Context::createDefaultContext());
+        $this->entityRepository->create($updates, Context::createDefaultContext());
+        $this->imageToMedia->add($productCollection);
     }
 }

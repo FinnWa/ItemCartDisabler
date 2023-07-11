@@ -8,14 +8,14 @@ use Ramsey\Collection\AbstractCollection;
 use Ramsey\Collection\CollectionInterface;
 
 /**
- * @extends AbstractCollection<ProductMedia>
- * @implements CollectionInterface<ProductMedia>
- * @implements \IteratorAggregate<int,ProductMedia>
+ * @extends AbstractCollection<ProductImage>
+ * @implements CollectionInterface<ProductImage>
+ * @implements \IteratorAggregate<int,ProductImage>
  */
 final class ProductImageCollection extends AbstractCollection
 {
     public function getType(): string
     {
-        return Product::class;
+        return ProductImage::class;
     }
 }

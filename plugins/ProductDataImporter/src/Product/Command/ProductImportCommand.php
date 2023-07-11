@@ -30,7 +30,7 @@ final class ProductImportCommand extends Command
     {
         $products = $this->inputParser->parse($input->getArgument('path'));
 
-        $this->productImporter->update($products);
+        $this->productImporter->import($products);
 
         $output->writeln('products added');
 

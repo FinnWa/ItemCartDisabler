@@ -16,6 +16,6 @@ final class ProductMediaCollection extends AbstractCollection
 {
     public function getType(): string
     {
-        return Product::class;
+        return ProductMedia::class;
     }
 }
