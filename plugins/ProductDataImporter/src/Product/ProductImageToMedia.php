@@ -43,6 +43,7 @@ final class ProductImageToMedia
             $productMedia = new ProductMedia($mediaId, $image->productId, $image->imageName);
             $mediaCollection->add($productMedia);
         }
+
         $this->mediaImporter->import($mediaCollection);
         return $mediaId;
     }
