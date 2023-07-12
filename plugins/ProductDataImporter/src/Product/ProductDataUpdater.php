@@ -4,29 +4,28 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product;
 
+
 use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
+use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
-final class ProductImporter
+final class ProductDataUpdater
 {
 
-    public function __construct(
-        private EntityRepository $entityRepository,
-        private ProductCollection $productCollection,
-        private ProductImageToMedia $imageToMedia,
-        private ProductValidator $productValidator
-    ) {
+    public function __construct(private EntityRepository $entityRepository)
+    {
     }
 
-    public function import(ProductCollection $productCollection): void
+    public function update(ProductCollection $productCollection): void
     {
-        $updates = [];
-
         foreach ($productCollection as $product) {
-            $updates[] = [
-                'id' => $product->id,
+            $searchedProduct = $this->findByProductNumber($product);
+
+            $data = [
+                'id' => $searchedProduct->getId(),
                 'name' => $product->productName,
                 'taxId' => 'b6e827014e184c7d82ffdc25b4e446ad',
                 'stock' => 1000,
@@ -47,10 +46,17 @@ final class ProductImporter
                     ]
                 ]
             ];
-        }
 
-        //TODO aus dem Context die ids holen
-        $this->entityRepository->create($updates, Context::createDefaultContext());
-        $this->imageToMedia->add($productCollection);
+            $this->entityRepository->update([$data], Context::createDefaultContext());
+        }
+    }
+
+    public function findByProductNumber(Product $product): ProductEntity
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('productNumber', $product->productNumber));
+        $product = $this->entityRepository->search($criteria, Context::createDefaultContext())->first();
+
+        return $product;
     }
 }

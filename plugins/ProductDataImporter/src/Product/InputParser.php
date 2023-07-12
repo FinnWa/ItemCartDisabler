@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Serializer;
 
 final class InputParser
 {
-    public function __construct(private Serializer $serializer)
+    public function __construct(private Serializer $serializer, private ProductValidator $productValidator)
     {
     }
 
@@ -34,7 +34,10 @@ final class InputParser
                 (string)$productData['IMAGE'],
                 Uuid::randomHex()
             );
-            $productCollection->add($product);
+
+            if ($this->productValidator->validate($product)) {
+                $productCollection->add($product);
+            }
         }
         return $productCollection;
     }

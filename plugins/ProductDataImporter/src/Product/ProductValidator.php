@@ -13,61 +13,48 @@ final class ProductValidator
     {
     }
 
-    public function validate(ProductCollection $productCollection): void
+    public function validate(Product $product): bool
     {
         $brokenProductCollection = new BrokenProductCollection();
-        foreach ($productCollection as $product) {
-            if (!$this->hasImage($product) || !$this->hasProductNumber($product) || !$this->hasProductName($product)) {
-                if (!$this->hasImage($product)) {
-                    $product->productImageUrl = 'MISSING';
-                }
+        $brokenProduct = $this->createBrokenProduct($product);
 
-                if (!$this->hasProductNumber($product)) {
-                    $product->productNumber = 'MISSING';
-                }
-
-                if (!$this->hasProductName($product)) {
-                    $product->productName = 'MISSING';
-                }
-                $brokenProductCollection->add($product);
-                $productCollection->remove($product);
+        if (!$product->hasImage() || !$product->hasProductNumber() || !$product->hasProductName($product)) {
+            if (!$product->hasImage()) {
+                $brokenProduct->productImageUrl = 'MISSING';
             }
 
+            if (!$product->hasProductNumber()) {
+                $brokenProduct->productNumber = 'MISSING';
+            }
 
-        }
-        $this->writeBrokenProductsToCsv($brokenProductCollection);
-    }
-
-    public function hasImage(Product $product): bool
-    {
-        if ($product->productImageUrl === '') {
+            if (!$product->hasProductName()) {
+                $brokenProduct->productName = 'MISSING';
+            }
+            $brokenProductCollection->add($brokenProduct);
+            $this->writeBrokenProductsToCsv($brokenProductCollection);
             return false;
         }
+
         return true;
     }
 
-    public function hasProductNumber(Product $product): bool
+    public function createBrokenProduct(Product $product): BrokenProduct
     {
-        if ($product->productNumber === '') {
-            return false;
-        }
-        return true;
+        return new BrokenProduct(
+            $product->productNumber,
+            $product->productName,
+            $product->productDescription,
+            $product->productNettoPrice,
+            $product->productBruttoPrice,
+            $product->productImageUrl
+        );
     }
 
-    public function hasProductName(Product $product): bool
-    {
-        if ($product->productName === '') {
-            return false;
-        }
-        return true;
-    }
-
-    public function writeBrokenProductsToCsv(BrokenProductCollection $brokenProductCollection): void
+    private function writeBrokenProductsToCsv(BrokenProductCollection $brokenProductCollection): void
     {
         $products = [];
         foreach ($brokenProductCollection as $brokenProduct) {
             $products[] = [
-                'ID' => $brokenProduct->id,
                 'NUMBER' => $brokenProduct->productNumber,
                 'NAME' => $brokenProduct->productName,
                 'DESCRIPTION' => $brokenProduct->productDescription,

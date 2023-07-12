@@ -14,8 +14,7 @@
 
         <service id="ProductDataImporter\Product\InputParser" >
             <argument type="service" id="serializer"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductImageToMedia"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductImageDownloader"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductValidator"/>
         </service>
 
         <service id="ProductDataImporter\Product\Product" >
@@ -28,6 +27,12 @@
             <tag name="console.command"/>
             <argument type="service" id="ProductDataImporter\Product\InputParser"/>
             <argument type="service" id="ProductDataImporter\Product\ProductImporter"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\Command\ProductUpdateCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="ProductDataImporter\Product\InputParser"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductDataUpdater"/>
         </service>
 
 
@@ -44,6 +49,7 @@
 
         <service id="ProductDataImporter\Product\ProductMediaImporter">
             <argument type="service" id="product_media.repository"/>
+            <argument type="service" id="product.repository"/>
         </service>
 
         <service id="ProductDataImporter\Product\ProductImageToMedia">
@@ -58,6 +64,10 @@
 
         <service id="ProductDataImporter\Product\ProductValidator">
             <argument type="service" id="serializer"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductDataUpdater">
+            <argument type="service" id="product.repository"/>
         </service>
 
     </services>

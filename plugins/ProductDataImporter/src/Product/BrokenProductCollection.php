@@ -16,6 +16,6 @@ final class BrokenProductCollection extends AbstractCollection
 {
     public function getType(): string
     {
-        return Product::class;
+        return BrokenProduct::class;
     }
 }
