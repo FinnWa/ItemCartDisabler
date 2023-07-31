@@ -18,7 +18,7 @@ final class ProductValidator
         $brokenProductCollection = new BrokenProductCollection();
         $brokenProduct = $this->createBrokenProduct($product);
 
-        if (!$product->hasImage() || !$product->hasProductNumber() || !$product->hasProductName($product)) {
+        if (!$product->hasImage() || !$product->hasProductNumber() || !$product->hasProductName()) {
             if (!$product->hasImage()) {
                 $brokenProduct->productImageUrl = 'MISSING';
             }
@@ -31,6 +31,7 @@ final class ProductValidator
                 $brokenProduct->productName = 'MISSING';
             }
             $brokenProductCollection->add($brokenProduct);
+            //wann wird geschrieben bzw. wie am ende der liste?
             $this->writeBrokenProductsToCsv($brokenProductCollection);
             return false;
         }
