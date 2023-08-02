@@ -10,6 +10,7 @@
             <argument type="service" id="ProductDataImporter\Product\ProductCollection"/>
             <argument type="service" id="ProductDataImporter\Product\ProductImageToMedia"/>
             <argument type="service" id="ProductDataImporter\Product\ProductValidator"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
         </service>
 
         <service id="ProductDataImporter\Product\InputParser" >
@@ -35,6 +36,11 @@
             <argument type="service" id="ProductDataImporter\Product\ProductDataUpdater"/>
         </service>
 
+        <service id="ProductDataImporter\Product\Command\ProductDeleteCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="ProductDataImporter\Product\InputParser"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductDataDeleter"/>
+        </service>
 
         <service id="ProductDataImporter\Product\ProductImageDownloader">
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
@@ -68,6 +74,23 @@
 
         <service id="ProductDataImporter\Product\ProductDataUpdater">
             <argument type="service" id="product.repository"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductDataDeleter">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+            <argument type="service" id="product_media.repository"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductMediaSearcher"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductSearcher">
+            <argument type="service" id="product.repository"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductMediaSearcher">
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
         </service>
 
     </services>

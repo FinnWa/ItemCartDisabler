@@ -10,7 +10,10 @@ use Shopware\Core\Content\Media\MediaCollection;
 use Shopware\Core\Content\Media\MediaService;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
+
 
 final class ProductImageToMedia
 {
@@ -27,8 +30,15 @@ final class ProductImageToMedia
     {
         $mediaCollection = new ProductMediaCollection();
         $imageCollection = $this->productImageDownloader->download($productCollection);
+        //$criteria = new Criteria();
 
         foreach ($imageCollection as $image) {
+
+            /*
+            if ($criteria->addFilter(new EqualsFilter('id', $image->productId))) {
+                continue;
+            }
+*/
             $filePath = $image->imagePath . $image->imageName . $image->imageExtension;
 
             $mediaFile = new MediaFile($filePath, mime_content_type($filePath), ltrim($image->imageExtension, '.'),
@@ -47,5 +57,4 @@ final class ProductImageToMedia
         $this->mediaImporter->import($mediaCollection);
         return $mediaId;
     }
-        //mapping keinen guten Weg gefunden
 }

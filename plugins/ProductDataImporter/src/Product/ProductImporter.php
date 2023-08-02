@@ -7,6 +7,8 @@ namespace ProductDataImporter\Product;
 use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 final class ProductImporter
@@ -16,7 +18,8 @@ final class ProductImporter
         private EntityRepository $entityRepository,
         private ProductCollection $productCollection,
         private ProductImageToMedia $imageToMedia,
-        private ProductValidator $productValidator
+        private ProductValidator $productValidator,
+        private ProductSearcher $productSearcher,
     ) {
     }
 
@@ -25,6 +28,11 @@ final class ProductImporter
         $updates = [];
 
         foreach ($productCollection as $product) {
+
+            if ($this->productSearcher->search($product)){
+                continue;
+            }
+
             $updates[] = [
                 'id' => $product->id,
                 'name' => $product->productName,
@@ -50,6 +58,9 @@ final class ProductImporter
         }
 
         //TODO aus dem Context die ids holen
+        // TODO Wenn produkt vorhanden skip
+
+
         $this->entityRepository->create($updates, Context::createDefaultContext());
         $this->imageToMedia->add($productCollection);
     }
