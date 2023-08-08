@@ -23,17 +23,21 @@ final class ProductDataDeleter
     {
         foreach ($productCollection as $product) {
             $searchedProduct = $this->productSearcher->search($product);
-            $searchedProductMedia = $this->mediaSearcher->search($product);
-            dd($searchedProductMedia);
+            $searchedProductMediaIds = $this->mediaSearcher->search($product);
+
             if ($searchedProduct !== null) {
                 $data = [
                     'id' => $searchedProduct->getId(),
                 ];
-                if ($searchedProduct->getMedia()->getIds() !== null) {
-                    $this->mediaRepository->delete([['id' => $searchedProduct->getMedia()->getMediaIds()]],
-                        Context::createDefaultContext());
+
+                foreach ($searchedProductMediaIds as $searchedProductMediaId) {
+                    $mediaData = [
+                        'id' => $searchedProductMediaId
+                    ];
+                    //dd($mediaData);
+                    $this->mediaRepository->delete([$mediaData], Context::createDefaultContext());
                 }
-                $this->entityRepository->delete([$data], Context::createDefaultContext());
+                //$this->entityRepository->delete([$data], Context::createDefaultContext());
             }
         }
     }

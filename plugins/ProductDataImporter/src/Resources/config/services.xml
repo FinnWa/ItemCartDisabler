@@ -90,7 +90,7 @@
 
         <service id="ProductDataImporter\Product\ProductMediaSearcher">
             <argument type="service" id="product.repository"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+            <argument type="service" id="product_media.repository"/>
         </service>
 
     </services>
