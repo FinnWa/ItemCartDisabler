@@ -63,12 +63,27 @@
             <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver"/>
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
             <argument type="service" id="ProductDataImporter\Product\ProductMediaImporter"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductMediaDuplicateFinder"/>
         </service>
 
         <service id="ProductDataImporter\Product\ProductImage">
         </service>
 
         <service id="ProductDataImporter\Product\ProductValidator">
+            <argument type="service" id="ProductDataImporter\Product\CsvWriter"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductDuplicateFinder">
+            <argument type="service" id="ProductDataImporter\Product\CsvWriter"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\ProductMediaDuplicateFinder">
+            <argument type="service" id="product_media.repository"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+        </service>
+
+        <service id="ProductDataImporter\Product\CsvWriter">
             <argument type="service" id="serializer"/>
         </service>
 

@@ -17,7 +17,7 @@ final class ProductSearcher
     {
     }
 
-    public function search(Product $product): ?ProductEntity
+    public function search($product): ?ProductEntity
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('productNumber', $product->productNumber));

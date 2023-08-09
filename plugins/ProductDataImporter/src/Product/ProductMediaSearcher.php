@@ -25,11 +25,8 @@ final readonly class ProductMediaSearcher
 
         /** @var ProductEntity $product */
         $product = $this->entityRepository->search($criteria, Context::createDefaultContext())->first();
-
         /** @var MediaEntity $media */
         $media = $product->getMedia();
-        //dump($media);
-        //dd($media->getIds());
 
         return $media->getIds();
     }

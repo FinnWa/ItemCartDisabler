@@ -34,10 +34,10 @@ final class ProductDataDeleter
                     $mediaData = [
                         'id' => $searchedProductMediaId
                     ];
-                    //dd($mediaData);
+
                     $this->mediaRepository->delete([$mediaData], Context::createDefaultContext());
                 }
-                //$this->entityRepository->delete([$data], Context::createDefaultContext());
+                $this->entityRepository->delete([$data], Context::createDefaultContext());
             }
         }
     }

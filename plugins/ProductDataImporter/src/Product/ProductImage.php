@@ -13,7 +13,8 @@ final class ProductImage
         public string $imageName,
         public string $imageExtension,
         public string $imagePath,
-        public string $productId
+        public string $productId,
+        public string $productNumber
     ) {
     }
 

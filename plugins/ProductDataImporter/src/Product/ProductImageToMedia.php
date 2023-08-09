@@ -22,7 +22,8 @@ final class ProductImageToMedia
         private ProductImageDownloader $productImageDownloader,
         private FileSaver $fileSaver,
         private MediaService $mediaService,
-        private ProductMediaImporter $mediaImporter
+        private ProductMediaImporter $mediaImporter,
+        private ProductMediaDuplicateFinder $duplicateFinder
     ) {
     }
 
@@ -30,15 +31,14 @@ final class ProductImageToMedia
     {
         $mediaCollection = new ProductMediaCollection();
         $imageCollection = $this->productImageDownloader->download($productCollection);
-        //$criteria = new Criteria();
+        $mediaId = '';
 
         foreach ($imageCollection as $image) {
 
-            /*
-            if ($criteria->addFilter(new EqualsFilter('id', $image->productId))) {
+            if ($this->duplicateFinder->find($image)) {
                 continue;
             }
-*/
+
             $filePath = $image->imagePath . $image->imageName . $image->imageExtension;
 
             $mediaFile = new MediaFile($filePath, mime_content_type($filePath), ltrim($image->imageExtension, '.'),

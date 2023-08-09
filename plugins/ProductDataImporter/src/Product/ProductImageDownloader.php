@@ -28,9 +28,10 @@ final class ProductImageDownloader
             file_put_contents($imagePath . $product->productName . $imageExtension,
                 file_get_contents($product->productImageUrl));
 
-            $image = new ProductImage(Uuid::randomHex(), $product->productName, $imageExtension, $imagePath, $product->id);
+            $image = new ProductImage(Uuid::randomHex(), $product->productName, $imageExtension, $imagePath,
+                $product->id, $product->productNumber);
             $imageCollection->add($image);
         }
-        return  $imageCollection;
+        return $imageCollection;
     }
 }

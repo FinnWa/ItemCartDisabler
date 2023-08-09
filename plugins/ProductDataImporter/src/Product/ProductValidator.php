@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace ProductDataImporter\Product;
 
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
-use Symfony\Component\Serializer\Serializer;
+
 
 final class ProductValidator
 {
-    public function __construct(private Serializer $serializer)
+
+    public const BROKEN_PRODUCT_CSV_PATH = '/brokenProducts.csv';
+
+    public function __construct(private readonly CsvWriter $csvWriter)
     {
     }
 
@@ -31,8 +34,8 @@ final class ProductValidator
                 $brokenProduct->productName = 'MISSING';
             }
             $brokenProductCollection->add($brokenProduct);
-            //wann wird geschrieben bzw. wie am ende der liste?
-            $this->writeBrokenProductsToCsv($brokenProductCollection);
+
+            $this->csvWriter->write($brokenProductCollection, self::BROKEN_PRODUCT_CSV_PATH);
             return false;
         }
 
@@ -49,21 +52,5 @@ final class ProductValidator
             $product->productBruttoPrice,
             $product->productImageUrl
         );
-    }
-
-    private function writeBrokenProductsToCsv(BrokenProductCollection $brokenProductCollection): void
-    {
-        $products = [];
-        foreach ($brokenProductCollection as $brokenProduct) {
-            $products[] = [
-                'NUMBER' => $brokenProduct->productNumber,
-                'NAME' => $brokenProduct->productName,
-                'DESCRIPTION' => $brokenProduct->productDescription,
-                'PRICE_NET' => $brokenProduct->productNettoPrice,
-                'IMAGE' => $brokenProduct->productImageUrl,
-            ];
-        }
-        file_put_contents(__DIR__ . '/brokenProducts.csv',
-            $this->serializer->encode($products, 'csv', [CsvEncoder::DELIMITER_KEY => ';']));
     }
 }
