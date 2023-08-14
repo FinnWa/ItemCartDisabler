@@ -6,6 +6,8 @@ namespace ProductDataImporter\Product;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 final class ProductMediaImporter
@@ -24,9 +26,16 @@ final class ProductMediaImporter
 
             $id = Uuid::randomHex();
             $data = ['id' => $id, 'productId' => $media->productId, 'mediaId' => $media->id];
+
             $this->mediaRepository->create([$data], Context::createDefaultContext());
 
-            //$this->entityRepository->searchIds(new Criteria($media->productId), Context::createDefaultContext());
+            $this->entityRepository->update([
+                [
+                'id' => $media->productId,
+                    'coverId' => $data['id']
+                ]
+            ], Context::createDefaultContext());
+
         }
     }
 }

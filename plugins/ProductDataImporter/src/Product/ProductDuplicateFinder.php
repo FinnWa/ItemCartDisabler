@@ -18,14 +18,14 @@ final class ProductDuplicateFinder
     {
         $duplicateCollection = new DuplicatedProductCollection();
 
-        if ($this->productSearcher->search($product) !== null) {
-            $duplicatedProduct = $this->createDuplicateProduct($product);
-            $duplicateCollection->add($duplicatedProduct);
-            $this->csvWriter->write($duplicateCollection, self::DUPLICATED_PRODUCT_CSV_PATH, FILE_APPEND);
-            return true;
+        if ($this->productSearcher->search($product) === null) {
+            return false;
         }
 
-        return false;
+        $duplicatedProduct = $this->createDuplicateProduct($product);
+        $duplicateCollection->add($duplicatedProduct);
+        $this->csvWriter->write($duplicateCollection, self::DUPLICATED_PRODUCT_CSV_PATH);
+        return true;
     }
 
     public function createDuplicateProduct(Product $product): DuplicatedProduct

@@ -7,9 +7,7 @@
     <services>
         <service id="ProductDataImporter\Product\ProductImporter" >
             <argument type="service" id="product.repository"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductCollection"/>
             <argument type="service" id="ProductDataImporter\Product\ProductImageToMedia"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductValidator"/>
             <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
         </service>
 

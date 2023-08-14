@@ -7,18 +7,14 @@ namespace ProductDataImporter\Product;
 use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\Framework\Uuid\Uuid;
+
 
 final class ProductImporter
 {
 
     public function __construct(
         private EntityRepository $entityRepository,
-        private ProductCollection $productCollection,
         private ProductImageToMedia $imageToMedia,
-        private ProductValidator $productValidator,
         private ProductSearcher $productSearcher,
     ) {
     }
