@@ -26,6 +26,6 @@ final class ProductMediaDuplicateFinder
         $criteria->addFilter(new EqualsFilter('productId', $product->getId()));
         $media = $this->mediaRepository->search($criteria, Context::createDefaultContext())->first();
 
-        return ($media !== null) && $image->imageName === $media->getMedia()->getFileName();
+        return ($media !== null);
     }
 }

@@ -32,12 +32,7 @@ final class ProductMediaImporter
 
             $this->mediaRepository->create([$data], Context::createDefaultContext());
 
-            $criteria = new Criteria();
-            $criteria->addFilter(new EqualsFilter('id', $media->productId));
-
-            $product = $this->entityRepository->search($criteria, Context::createDefaultContext())->first();
-
-            if (!$product->getCoverId()){
+            if (!$this->productSearcher->search($media)->getCoverId()){
                 $this->entityRepository->update([
                     [
                         'id' => $media->productId,

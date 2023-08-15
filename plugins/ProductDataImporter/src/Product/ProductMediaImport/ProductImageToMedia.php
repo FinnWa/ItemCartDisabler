@@ -47,7 +47,7 @@ final class ProductImageToMedia
             $this->fileSaver->persistFileToMedia($mediaFile, $image->imageName, $mediaId,
                 Context::createDefaultContext());
 
-            $productMedia = new ProductMedia($mediaId, $image->productId, $image->imageName);
+            $productMedia = new ProductMedia($mediaId, $image->productId, $image->imageName, $image->productNumber);
             $mediaCollection->add($productMedia);
         }
 

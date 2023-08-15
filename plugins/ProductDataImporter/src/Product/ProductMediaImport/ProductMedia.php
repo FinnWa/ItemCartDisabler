@@ -10,7 +10,8 @@ final class ProductMedia
     public function __construct(
         public string $id,
         public string $productId,
-        public string $imageName
+        public string $imageName,
+        public string $productNumber
     ) {
     }
 
