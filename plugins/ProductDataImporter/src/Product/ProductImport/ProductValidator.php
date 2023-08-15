@@ -23,7 +23,7 @@ final class ProductValidator
 
         if (!$product->hasImage() || !$product->hasProductNumber() || !$product->hasProductName()) {
             if (!$product->hasImage()) {
-                $brokenProduct->productImageUrl = 'MISSING';
+                $brokenProduct->productImageUrl[] = 'MISSING';
             }
 
             if (!$product->hasProductNumber()) {

@@ -25,13 +25,16 @@ final class InputParser
             ['no_headers', CsvEncoder::DELIMITER_KEY => ';']);
 
         foreach ($productsData as $productData) {
+
+            $images = explode(',', $productData['IMAGE']);
+
             $product = new Product(
                 (string)$productData['NUMBER'],
                 $productData['NAME'],
                 $productData['DESCRIPTION'],
                 (float)$productData['PRICE_NET'],
                 (float)$productData['PRICE_NET'],
-                (string)$productData['IMAGE'],
+                $images,
                 Uuid::randomHex()
             );
 

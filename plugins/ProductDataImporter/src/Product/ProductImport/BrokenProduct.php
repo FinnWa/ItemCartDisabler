@@ -17,7 +17,7 @@ final class BrokenProduct
         public ?string $productDescription,
         public ?float $productNettoPrice,
         ?float $productBruttoPrice,
-        public ?string $productImageUrl,
+        public ?array $productImageUrl,
     ) {
         $this->productBruttoPrice = round(($productBruttoPrice * self::BRUTTO_PERCENT), 2);
     }

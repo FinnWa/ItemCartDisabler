@@ -54,6 +54,7 @@
         <service id="ProductDataImporter\Product\ProductMediaImport\ProductMediaImporter">
             <argument type="service" id="product_media.repository"/>
             <argument type="service" id="product.repository"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearch\ProductSearcher"/>
         </service>
 
         <service id="ProductDataImporter\Product\ProductMediaImport\ProductImageToMedia">

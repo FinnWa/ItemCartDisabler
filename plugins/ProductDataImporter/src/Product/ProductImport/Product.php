@@ -17,7 +17,7 @@ final readonly class Product
         public string $productDescription,
         public float $productNettoPrice,
         float $productBruttoPrice,
-        public string $productImageUrl,
+        public array $productImageUrl,
         public string $id,
     ) {
         $this->productBruttoPrice = round(($productBruttoPrice * self::BRUTTO_PERCENT), 2);
@@ -25,7 +25,8 @@ final readonly class Product
 
     public function hasImage(): bool
     {
-        return $this->productImageUrl !== '';
+
+        return !empty($this->productImageUrl);
     }
 
     public function hasProductNumber(): bool

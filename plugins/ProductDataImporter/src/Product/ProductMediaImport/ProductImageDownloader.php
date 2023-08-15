@@ -19,20 +19,25 @@ final class ProductImageDownloader
         }
 
         foreach ($productCollection as $product) {
+            foreach ($product->productImageUrl as $singleImage) {
+                $imageName = explode('/', $singleImage);
 
-            $imageName = explode('/', $product->productImageUrl);
-            $imageNameParts = explode('.', array_pop($imageName));
-            $imageExtension = '.' . $imageNameParts[1];
-            $imagePath = __DIR__ . '/MediaDownload/';
+                $imageNameParts = explode('.', array_pop($imageName));
+                $imageExtension = '.' . $imageNameParts[1];
+                $imagePath = __DIR__ . '/MediaDownload/';
+
+                $productImageName = $product->productName . Uuid::randomHex();
 
 
-            file_put_contents($imagePath . $product->productName . $imageExtension,
-                file_get_contents($product->productImageUrl));
+                file_put_contents($imagePath . $productImageName . $imageExtension,
+                    file_get_contents($singleImage));
 
-            $image = new ProductImage(Uuid::randomHex(), $product->productName, $imageExtension, $imagePath,
-                $product->id, $product->productNumber);
-            $imageCollection->add($image);
+                $image = new ProductImage(Uuid::randomHex(), $productImageName, $imageExtension, $imagePath,
+                    $product->id, $product->productNumber);
+                $imageCollection->add($image);
+            }
         }
+
         return $imageCollection;
     }
 }
