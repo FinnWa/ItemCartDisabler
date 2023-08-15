@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\ProductMediaImport;
 
-use ProductDataImporter\Product\ProductImageCollection;
+use ProductDataImporter\Product\ProductImport\ProductCollection;
+use ProductDataImporter\Product\ProductMediaImport;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 final class ProductImageDownloader
 {
-    public function download(ProductCollection $productCollection): \ProductDataImporter\Product\ProductImageCollection
+    public function download(ProductCollection $productCollection): ProductMediaImport\ProductImageCollection
     {
         $imageCollection = new ProductImageCollection();
 

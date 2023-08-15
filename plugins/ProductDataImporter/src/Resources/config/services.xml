@@ -5,103 +5,103 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="ProductDataImporter\Product\ProductImporter" >
+        <service id="ProductDataImporter\Product\ProductImport\ProductImporter" >
             <argument type="service" id="product.repository"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductImageToMedia"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductMediaImport\ProductImageToMedia"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearch\ProductSearcher"/>
         </service>
 
         <service id="ProductDataImporter\Product\InputParser" >
             <argument type="service" id="serializer"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductValidator"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductImport\ProductValidator"/>
         </service>
 
-        <service id="ProductDataImporter\Product\Product" >
+        <service id="ProductDataImporter\Product\ProductImport\Product" >
         </service>
 
-        <service id="ProductDataImporter\Product\ProductCollection" >
+        <service id="ProductDataImporter\Product\ProductImport\ProductCollection" >
         </service>
 
         <service id="ProductDataImporter\Product\Command\ProductImportCommand">
             <tag name="console.command"/>
             <argument type="service" id="ProductDataImporter\Product\InputParser"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductImporter"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductImport\ProductImporter"/>
         </service>
 
         <service id="ProductDataImporter\Product\Command\ProductUpdateCommand">
             <tag name="console.command"/>
             <argument type="service" id="ProductDataImporter\Product\InputParser"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductDataUpdater"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductUpdater\ProductDataUpdater"/>
         </service>
 
         <service id="ProductDataImporter\Product\Command\ProductDeleteCommand">
             <tag name="console.command"/>
             <argument type="service" id="ProductDataImporter\Product\InputParser"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductDataDeleter"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductDeleter\ProductDataDeleter"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductImageDownloader">
+        <service id="ProductDataImporter\Product\ProductMediaImport\ProductImageDownloader">
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
             <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductMedia">
+        <service id="ProductDataImporter\Product\ProductMediaImport\ProductMedia">
         </service>
 
-        <service id="ProductDataImporter\Product\ProductMediaCollection">
+        <service id="ProductDataImporter\Product\ProductMediaImport\ProductMediaCollection">
         </service>
 
-        <service id="ProductDataImporter\Product\ProductMediaImporter">
+        <service id="ProductDataImporter\Product\ProductMediaImport\ProductMediaImporter">
             <argument type="service" id="product_media.repository"/>
             <argument type="service" id="product.repository"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductImageToMedia">
-            <argument type="service" id="ProductDataImporter\Product\ProductImageDownloader"/>
+        <service id="ProductDataImporter\Product\ProductMediaImport\ProductImageToMedia">
+            <argument type="service" id="ProductDataImporter\Product\ProductMediaImport\ProductImageDownloader"/>
             <argument type="service" id="Shopware\Core\Content\Media\File\FileSaver"/>
             <argument type="service" id="Shopware\Core\Content\Media\MediaService"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductMediaImporter"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductMediaDuplicateFinder"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductMediaImport\ProductMediaImporter"/>
+            <argument type="service" id="ProductDataImporter\Product\DuplicateFinder\ProductMediaDuplicateFinder"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductImage">
+        <service id="ProductDataImporter\Product\ProductMediaImport\ProductImage">
         </service>
 
-        <service id="ProductDataImporter\Product\ProductValidator">
+        <service id="ProductDataImporter\Product\ProductImport\ProductValidator">
             <argument type="service" id="ProductDataImporter\Product\CsvWriter"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductDuplicateFinder">
+        <service id="ProductDataImporter\Product\DuplicateFinder\ProductDuplicateFinder">
             <argument type="service" id="ProductDataImporter\Product\CsvWriter"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearch\ProductSearcher"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductMediaDuplicateFinder">
+        <service id="ProductDataImporter\Product\DuplicateFinder\ProductMediaDuplicateFinder">
             <argument type="service" id="product_media.repository"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearch\ProductSearcher"/>
         </service>
 
         <service id="ProductDataImporter\Product\CsvWriter">
             <argument type="service" id="serializer"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductDataUpdater">
+        <service id="ProductDataImporter\Product\ProductUpdater\ProductDataUpdater">
             <argument type="service" id="product.repository"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearch\ProductSearcher"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductDataDeleter">
+        <service id="ProductDataImporter\Product\ProductDeleter\ProductDataDeleter">
             <argument type="service" id="product.repository"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductSearcher"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearch\ProductSearcher"/>
             <argument type="service" id="product_media.repository"/>
-            <argument type="service" id="ProductDataImporter\Product\ProductMediaSearcher"/>
+            <argument type="service" id="ProductDataImporter\Product\ProductSearch\ProductMediaSearcher"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductSearcher">
+        <service id="ProductDataImporter\Product\ProductSearch\ProductSearcher">
             <argument type="service" id="product.repository"/>
         </service>
 
-        <service id="ProductDataImporter\Product\ProductMediaSearcher">
+        <service id="ProductDataImporter\Product\ProductSearch\ProductMediaSearcher">
             <argument type="service" id="product.repository"/>
             <argument type="service" id="product_media.repository"/>
         </service>

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\ProductImport;
 
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use ProductDataImporter\Product\CsvWriter;
 
 
 final class ProductValidator

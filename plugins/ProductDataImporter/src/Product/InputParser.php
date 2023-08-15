@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ProductDataImporter\Product;
 
-use Shopware\Core\Content\Media\File\FileSaver;
-use Shopware\Core\Content\Media\MediaService;
-use Shopware\Core\Framework\Context;
+use ProductDataImporter\Product\ProductImport\Product;
+use ProductDataImporter\Product\ProductImport\ProductCollection;
+use ProductDataImporter\Product\ProductImport\ProductValidator;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Serializer;

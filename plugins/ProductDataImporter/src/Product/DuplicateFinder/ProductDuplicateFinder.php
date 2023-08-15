@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\DuplicateFinder;
+
+use ProductDataImporter\Product\CsvWriter;
+use ProductDataImporter\Product\ProductImport\Product;
+use ProductDataImporter\Product\ProductSearch\ProductSearcher;
 
 final class ProductDuplicateFinder
 {

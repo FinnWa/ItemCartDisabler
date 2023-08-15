@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
-
-use Shopware\Core\Framework\Uuid\Uuid;
+namespace ProductDataImporter\Product\ProductMediaImport;
 
 final class ProductImage
 {

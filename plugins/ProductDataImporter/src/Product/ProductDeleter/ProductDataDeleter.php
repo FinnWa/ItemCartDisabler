@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\ProductDeleter;
 
 
+use ProductDataImporter\Product\ProductImport\ProductCollection;
+use ProductDataImporter\Product\ProductSearch\ProductMediaSearcher;
+use ProductDataImporter\Product\ProductSearch\ProductSearcher;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 

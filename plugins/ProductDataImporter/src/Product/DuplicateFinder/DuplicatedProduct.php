@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\DuplicateFinder;
 
 final class DuplicatedProduct
 {

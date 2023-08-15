@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\DuplicateFinder;
 
+use ProductDataImporter\Product\ProductImport\Product;
 use Ramsey\Collection\AbstractCollection;
 use Ramsey\Collection\CollectionInterface;
 
@@ -12,10 +13,10 @@ use Ramsey\Collection\CollectionInterface;
  * @implements CollectionInterface<Product>
  * @implements \IteratorAggregate<int,Product>
  */
-final class ProductCollection extends AbstractCollection
+final class DuplicatedProductCollection extends AbstractCollection
 {
     public function getType(): string
     {
-        return Product::class;
+        return DuplicatedProduct::class;
     }
 }

@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\ProductImport;
 
+use ProductDataImporter\Product\ProductMediaImport\ProductImageToMedia;
+use ProductDataImporter\Product\ProductSearch\ProductSearcher;
 use Shopware\Core\Content\Product\Aggregate\ProductVisibility\ProductVisibilityDefinition;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;

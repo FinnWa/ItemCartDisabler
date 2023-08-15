@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\ProductMediaImport;
 
-
-use Shopware\Core\Framework\Context;
 
 final class ProductMedia
 {

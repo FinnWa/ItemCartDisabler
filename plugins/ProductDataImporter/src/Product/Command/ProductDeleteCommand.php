@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace ProductDataImporter\Product\Command;
 
 use ProductDataImporter\Product\InputParser;
-use ProductDataImporter\Product\ProductDataDeleter;
-use ProductDataImporter\Product\ProductImporter;
+use ProductDataImporter\Product\ProductDeleter\ProductDataDeleter;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ProductDataImporter\Product;
+namespace ProductDataImporter\Product\DuplicateFinder;
 
 
-use Dompdf\Exception;
+use ProductDataImporter\Product\ProductMediaImport\ProductImage;
+use ProductDataImporter\Product\ProductSearch\ProductSearcher;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
